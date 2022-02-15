@@ -1,16 +1,13 @@
 import { useMemo } from "react";
-import { useDispatch } from "react-redux";
-import { push } from "connected-react-router";
-
-const pushState = (path: string) => push(path);
+import { useNavigate } from "react-router-dom";
 
 export const useNavigation = () => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return useMemo(
     () => ({
-      pushState: (path: string) => dispatch(pushState(path)),
+      pushState: (path: string) => navigate(path),
     }),
-    [dispatch]
+    [navigate]
   );
 };

@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Row, Form, Input, Spin, Button } from "antd";
 import { useTranslation } from "react-i18next";
-import { useAuthentication } from "src/ducks/authentication/actions/authentication";
+// import { useAuthentication } from "src/ducks/authentication/actions/authentication";
 
 const PasswordRecovery: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
-  const { passwordRecovery } = useAuthentication();
+  // const { passwordRecovery } = useAuthentication();
   const { t } = useTranslation("authentication");
 
   const handlePasswordRecovery = (info: any) => {
     setLoading(true);
-    passwordRecovery(info.email);
+    // passwordRecovery(info.email);
     setLoading(false);
   };
 

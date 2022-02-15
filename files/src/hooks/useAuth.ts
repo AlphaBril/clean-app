@@ -1,10 +1,13 @@
-import { useDispatch } from "react-redux";
-import { push as pushState } from "connected-react-router";
+import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
+  const pushState = useNavigate();
   const user = localStorage.getItem("user");
-  const dispatch = useDispatch();
-  if (user) dispatch(pushState("/"));
+  if (user) {
+    pushState("/");
+  } else {
+    pushState("/auth");
+  }
 };
 
 export default useAuth;

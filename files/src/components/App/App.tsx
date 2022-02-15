@@ -18,10 +18,10 @@ const App: React.FC = () => {
   const message = useMessage();
   const { clearMessage } = useMessageActions();
 
-  const countDown = (text: string, error: boolean) => {
+  const countDown = (text: string, error: string) => {
     let secondsToGo = 3;
     let modal: any;
-    if (error) {
+    if (error === "error") {
       modal = Modal.error({
         title: text,
       });
@@ -41,14 +41,14 @@ const App: React.FC = () => {
     }, secondsToGo * 1000);
   };
 
-  if (message && message.message) {
-    countDown(message.message, message.error);
+  if (message && message.value) {
+    countDown(message.value, message.status);
   }
 
   return (
     <Layout>
       <Header>
-        <Typography.Title style={{ color: "#fefefe" }}>MATCHA</Typography.Title>
+        <Typography.Title style={{ color: "#aaaaaa" }}>MATCHA</Typography.Title>
       </Header>
       <Content className={styles.content}>
         <Routes />

@@ -1,33 +1,18 @@
 import { useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/hooks";
 import { RootState } from "src/store/configure";
-import { CLEAR_MESSAGE, ERROR_MESSAGE, SET_MESSAGE } from "../message";
-
-const setMessage = (message: string) => ({
-  type: SET_MESSAGE,
-  payload: message,
-});
-
-const setErrorMessage = (message: string) => ({
-  type: ERROR_MESSAGE,
-  payload: message,
-});
-
-const clearMessage = () => ({
-  type: CLEAR_MESSAGE,
-});
+import { setMessage, clearMessage, MessageState } from "../messageSlice";
 
 export const useMessage = () =>
-  useSelector((state: RootState) => state.message);
+  useAppSelector((state: RootState) => state.message);
 
 export const useMessageActions = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return useMemo(
     () => ({
       clearMessage: () => dispatch(clearMessage()),
-      setMessage: (message: string) => dispatch(setMessage(message)),
-      setErrorMessage: (message: string) => dispatch(setErrorMessage(message)),
+      setMessage: (message: MessageState) => dispatch(setMessage(message)),
     }),
     [dispatch]
   );

@@ -19,6 +19,9 @@ npm install \
 cp ../files/.eslintrc.js ./
 cp ../files/tsconfig.json ./
 cd src
+cp ../../files/src/App.route.tsx ./
+cp ../../files/src/App.tsx ./
+cp ../../files/src/index.tsx ./
 cp -R ../../files/src/components ./components
 cp -R ../../files/src/ducks ./ducks
 cp -R ../../files/src/hooks ./hooks

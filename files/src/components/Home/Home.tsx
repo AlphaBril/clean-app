@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useNavigation } from "src/ducks/navigation/navigation";
+import React, { useEffect } from "react";
+import useAuth from "src/hooks/useAuth";
 import DisplayComponent from "./components/Display/Display";
 
 const Home: React.FC = () => {
-  const user = localStorage.getItem("user");
-  const { pushState } = useNavigation();
-
-  if (user == null) pushState("/auth");
+  useEffect(() => {
+    useAuth();
+  }, [useAuth]);
 
   return (
     <>

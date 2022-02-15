@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { useDispatch } from "react-redux";
-import { push as pushState } from "connected-react-router";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../../hooks/hooks";
 import axios from "axios";
 
 import { SignupData } from "src/components/Auth/components/Signup/Signup.d";
@@ -26,20 +26,20 @@ const handleError = (dispatch: any, error: any) => {
   dispatch({ type: "ERROR_MESSAGE", payload: message });
 };
 
-const setUser = (dispatch: any, res: any) => {
+const setUser = (dispatch: any, res: any, navigate: any) => {
   const token = res.data.token;
   localStorage.setItem("user", token);
   dispatch({ type: "LOGIN_SUCCESS", payload: token });
   socket.emit("order:update", token);
-  dispatch(pushState("/"));
+  navigate("/");
 };
 
-const userRegistrated = (dispatch: any, res: any) => {
+const userRegistrated = (dispatch: any, res: any, navigate: any) => {
   dispatch({
     type: "SET_MESSAGE",
     payload: "Registration success, you need to validate your mail",
   });
-  dispatch(pushState("/auth/login"));
+  navigate("/auth/login");
 };
 
 const userActivated = (dispatch: any, res: any) => {
@@ -98,24 +98,25 @@ const passswordChanged = (dispatch: any, res: any) => {
   });
 };
 
-const login = (username: string, password: string) => (dispatch: any) =>
-  axios.post(`${API_URL}${LOGIN_ENDPOINT}`, { username, password }).then(
-    (res) => {
-      setUser(dispatch, res);
-    },
-    (error) => {
-      handleError(dispatch, error);
-    }
-  );
+const login =
+  (username: string, password: string, navigate: any) => (dispatch: any) =>
+    axios.post(`${API_URL}${LOGIN_ENDPOINT}`, { username, password }).then(
+      (res) => {
+        setUser(dispatch, res, navigate);
+      },
+      (error) => {
+        handleError(dispatch, error);
+      }
+    );
 
-const logout = () => (dispatch: any) => {
+const logout = (navigate: any) => (dispatch: any) => {
   dispatch({ type: "LOGOUT" });
   localStorage.removeItem("user");
-  dispatch(pushState("/"));
+  navigate("/");
 };
 
 const signup =
-  ({ email, username, password, name, surname }: SignupData) =>
+  ({ email, username, password, name, surname }: SignupData, navigate: any) =>
   (dispatch: any) =>
     axios
       .post(`${API_URL}${SIGNUP_ENDPOINT}`, {
@@ -127,7 +128,7 @@ const signup =
       })
       .then(
         (res) => {
-          userRegistrated(dispatch, res);
+          userRegistrated(dispatch, res, navigate);
         },
         (error) => {
           handleError(dispatch, error);
@@ -222,7 +223,8 @@ const passwordRecovery = (email: string) => (dispatch: any) =>
   );
 
 export const useAuthentication = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   return useMemo(
     () => ({
@@ -241,10 +243,10 @@ export const useAuthentication = () => {
       updateName: (token: string | null, name: string) =>
         dispatch(updateName(token, name)),
       login: (username: string, password: string) =>
-        dispatch(login(username, password)),
-      signup: (data: SignupData) => dispatch(signup(data)),
-      logout: () => dispatch(logout()),
+        dispatch(login(username, password, navigate)),
+      signup: (data: SignupData) => dispatch(signup(data, navigate)),
+      logout: () => dispatch(logout(navigate)),
     }),
-    [dispatch]
+    [dispatch, navigate]
   );
 };

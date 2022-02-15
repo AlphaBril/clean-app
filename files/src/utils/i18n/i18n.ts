@@ -3,6 +3,7 @@ import { initReactI18next } from "react-i18next";
 import detector from "i18next-browser-languagedetector";
 
 const preload = (lng: string) => ({
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   authentication: require(`./locales/${lng}/authentication.ts`).default,
 });
 

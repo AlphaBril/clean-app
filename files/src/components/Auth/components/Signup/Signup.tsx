@@ -7,20 +7,20 @@ import { useTranslation } from "react-i18next";
 
 import { SignupData } from "./Signup.d";
 
-import { useAuthentication } from "src/ducks/authentication/actions/authentication";
+// import { useAuthentication } from "src/ducks/authentication/actions/authentication";
 import { useNavigation } from "src/ducks/navigation/navigation";
 
 const Signup: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const { t } = useTranslation("authentication");
-  const { signup } = useAuthentication();
+  // const { signup } = useAuthentication();
   const { pushState } = useNavigation();
 
   const goToLogin = () => pushState("/auth/login");
   const handleSignup = (user: SignupData) => {
     setLoading(true);
-    signup({ ...user });
+    // signup({ ...user });
     setLoading(false);
   };
 
