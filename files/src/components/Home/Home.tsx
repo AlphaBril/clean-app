@@ -1,11 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import useAuth from "src/hooks/useAuth";
 import DisplayComponent from "./components/Display/Display";
 
 const Home: React.FC = () => {
-  useEffect(() => {
-    useAuth();
-  }, [useAuth]);
+  useAuth();
 
   return (
     <>
