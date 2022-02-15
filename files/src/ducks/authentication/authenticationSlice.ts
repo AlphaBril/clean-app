@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGIN_FAILURE = "LOGIN_FAILURE";
 const LOGOUT = "LOGOUT";

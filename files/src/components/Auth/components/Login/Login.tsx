@@ -6,14 +6,14 @@ import { useTranslation } from "react-i18next";
 
 import { LoginData } from "./Login.d";
 
-// import { useAuthentication } from "src/ducks/authentication/actions/authentication";
+import { useAuthentication } from "src/ducks/authentication/actions/authentication";
 import { useNavigation } from "src/ducks/navigation/navigation";
 
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const { t } = useTranslation("authentication");
-  // const { login } = useAuthentication();
+  const { login } = useAuthentication();
   const { pushState } = useNavigation();
 
   const goToSignup = () => pushState("/auth/signup");
@@ -21,7 +21,7 @@ const Login: React.FC = () => {
 
   const handleLogin = ({ username, password }: LoginData) => {
     setLoading(true);
-    // login(username, password);
+    login(username, password);
     setLoading(false);
   };
 

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { Row, Form, Input, Spin, Button } from "antd";
 
-// import { useAuthentication } from "src/ducks/authentication/actions/authentication";
+import { useAuthentication } from "src/ducks/authentication/actions/authentication";
 import { useNavigation } from "src/ducks/navigation/navigation";
 
 const ChangePassword: React.FC = () => {
@@ -11,7 +11,7 @@ const ChangePassword: React.FC = () => {
   const [token, setToken] = useState("");
 
   const { pushState } = useNavigation();
-  // const { changePassword } = useAuthentication();
+  const { changePassword } = useAuthentication();
   const { t } = useTranslation("authentication");
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const ChangePassword: React.FC = () => {
 
   const handleChangePassword = (info: any) => {
     setLoading(true);
-    // changePassword(token, info.password);
+    changePassword(token, info.password);
     setLoading(false);
   };
 
@@ -38,7 +38,7 @@ const ChangePassword: React.FC = () => {
       message: t("password_too_short"),
     },
     {
-      pattern: new RegExp("^.*[0-9]$"), // LES REGEX ICI C'EST DE LA GROSSE MERDE (regexp prend pas le \d pour les chiffres, mais pour un char d...)
+      pattern: new RegExp("^.*[0-9]$"), // TODO change regex for d
       message: t("password_contain"),
     },
   ];
@@ -53,7 +53,7 @@ const ChangePassword: React.FC = () => {
       message: t("password_too_short"),
     },
     {
-      pattern: new RegExp("^.*[0-9]$"), // LES REGEX ICI C'EST DE LA GROSSE MERDE (regexp prend pas le \d pour les chiffres, mais pour un char d...)
+      pattern: new RegExp("^.*[0-9]$"), // TODO change regex for d
       message: t("password_contain"),
     },
   ];

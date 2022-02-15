@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../../hooks/hooks";
+import { useAppDispatch } from "src/hooks/hooks";
 import axios from "axios";
 
 import { SignupData } from "src/components/Auth/components/Signup/Signup.d";
-import { socket } from "src/hooks/useSocket";
+// import { socket } from "src/hooks/useSocket"; TODO activate with api on
 
 const PORT = 3001;
 const ADDRESS = "localhost";
@@ -30,7 +30,7 @@ const setUser = (dispatch: any, res: any, navigate: any) => {
   const token = res.data.token;
   localStorage.setItem("user", token);
   dispatch({ type: "LOGIN_SUCCESS", payload: token });
-  socket.emit("order:update", token);
+  // socket.emit("order:update", token); TODO activate with api on
   navigate("/");
 };
 

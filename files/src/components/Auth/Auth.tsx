@@ -1,7 +1,5 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-
-// import useAuth from "../../hooks/useAuth";
+import { Route, Routes } from "react-router-dom";
 
 import LoginComponent from "./components/Login/Login";
 import SignupComponent from "./components/Signup/Signup";
@@ -10,16 +8,14 @@ import ChangePasswordComponent from "./components/ChangePassword/ChangePassword"
 import PasswordRecoveryComponent from "./components/PasswordRecovery/PasswordRecovery";
 
 const Auth: React.FC = () => {
-  // useAuth();
 
   return (
     <Routes>
-      <Route path="/auth" element={<Navigate to="/auth/login" />} />
-      <Route path="/auth/signup" element={<SignupComponent />} />
-      <Route path="/auth/login" element={<LoginComponent />} />
-      <Route path="/auth/activate" element={<ActivateComponent />} />
-      <Route path="/auth/password" element={<ChangePasswordComponent />} />
-      <Route path="/auth/recovery" element={<PasswordRecoveryComponent />} />
+      <Route path="signup" element={<SignupComponent />}></Route>
+      <Route path="login" element={<LoginComponent />}></Route>
+      <Route path="activate" element={<ActivateComponent />}></Route>
+      <Route path="password" element={<ChangePasswordComponent />}></Route>
+      <Route path="recovery" element={<PasswordRecoveryComponent />}></Route>
     </Routes>
   );
 };

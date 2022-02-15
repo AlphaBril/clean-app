@@ -27,5 +27,6 @@ cp -R ../../files/src/ducks ./ducks
 cp -R ../../files/src/hooks ./hooks
 cp -R ../../files/src/store ./store
 cp -R ../../files/src/utils ./utils
+rm -rf app features
 cd ..
 npx prettier --write src/**/*.ts{,x}

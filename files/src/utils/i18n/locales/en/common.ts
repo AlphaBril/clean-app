@@ -1,1 +1,3 @@
-export default {};
+const trad = {};
+
+export default trad;

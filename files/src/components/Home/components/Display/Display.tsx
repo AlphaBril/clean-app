@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Col, Row } from "antd";
 
 const Display: React.FC<{ message: string }> = (props) => {
@@ -6,7 +6,7 @@ const Display: React.FC<{ message: string }> = (props) => {
 
   return (
     <Row>
-      <Col>{props.message ? props.message : null}</Col>
+      <Col>{props.message ? props.message : null} {user}</Col>
     </Row>
   );
 };

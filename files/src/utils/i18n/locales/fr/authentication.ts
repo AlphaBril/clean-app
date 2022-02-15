@@ -1,4 +1,4 @@
-export default {
+const trad = {
   login: "Se connecter",
   signup: "Créer un compte",
   email: "Email",
@@ -17,3 +17,5 @@ export default {
   lastname_missing: "Veuillez entrer un nom valide",
   go_to_recovery: "Recuperer mon compte",
 };
+
+export default trad;
