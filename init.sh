@@ -20,6 +20,7 @@ cp ../files/.eslintrc.js ./
 cp ../files/tsconfig.json ./
 cd src
 cp ../../files/src/App.route.tsx ./
+cp ../../files/src/App.test.tsx ./
 cp ../../files/src/App.tsx ./
 cp ../../files/src/index.tsx ./
 cp -R ../../files/src/components ./components
