@@ -15,6 +15,7 @@ npm install \
 	eslint-plugin-jest \
 	eslint-plugin-react \
 	eslint-plugin-react-hooks \
+	eslint-plugin-prettier \
 	eslint-plugin-import \
 	prettier \
 	antd \
