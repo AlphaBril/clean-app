@@ -6,7 +6,6 @@ npm install \
 	@types/jsonwebtoken \
 	eslint-config-prettier \
 	eslint-plugin-jest \
-	eslint-plugin-prettier \
 	eslint-plugin-react \
 	eslint-plugin-react-hooks \
 	eslint-plugin-import \
@@ -21,6 +20,7 @@ cp ../files/tsconfig.json ./
 cd src
 cp ../../files/src/App.route.tsx ./
 cp ../../files/src/App.test.tsx ./
+cp ../../files/src/App.css ./
 cp ../../files/src/App.tsx ./
 cp ../../files/src/index.tsx ./
 cp -R ../../files/src/components ./components
@@ -31,3 +31,25 @@ cp -R ../../files/src/utils ./utils
 rm -rf app features
 cd ..
 npx prettier --write src/**/*.ts{,x}
+cd ..
+cp -R files/api ./
+cd api
+npm install \
+	express \
+	bcrypt \
+	dotenv \
+	jsonwebtoken \
+	nodemailer \
+	socker.io \
+	ts-node \
+	dotenv
+npm install --save-dev \
+	@types/express \
+	@types/jsonwebtoken
+	concurrently \
+	nodemon \
+	eslint \
+	prettier \
+	eslint-config-prettier \
+	eslint-plugin-prettier \
+	typescript
