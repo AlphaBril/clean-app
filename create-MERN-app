@@ -38,7 +38,7 @@ cp -R ../../files/src/store ./store
 cp -R ../../files/src/utils ./utils
 rm -rf app features
 cd ..
-npx prettier --write src/**/*.ts{,x}
+npx prettier --write ./src
 cd ..
 cp -R files/api ./
 cd api

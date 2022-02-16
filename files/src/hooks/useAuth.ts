@@ -7,7 +7,7 @@ const useAuth = () => {
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
-      pushState("/");
+      console.log(user);
     } else {
       pushState("/auth/login");
     }
