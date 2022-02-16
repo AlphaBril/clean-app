@@ -90,6 +90,10 @@ $ cd app && npm start
 $ cd api && npm start
 ```
 
+## Git ##
+
+You can find it [here](./GIT.md)
+
 ## :memo: License ##
 
 This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
