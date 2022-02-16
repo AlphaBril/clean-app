@@ -22,7 +22,7 @@ npm install \
 	axios \
 	i18next react-i18next i18next-browser-languagedetector \
 	react-router-dom \
-	jsonwebtoken socket.io-client
+	jsonwebtoken socket.io-client jwt-decode
 cp ../files/.eslintrc.js ./
 cp ../files/tsconfig.json ./
 cd src
