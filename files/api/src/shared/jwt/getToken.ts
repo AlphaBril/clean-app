@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
+import { config } from "dotenv";
+config();
 
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || "";
-export const JWT_EXPIRATION_TIME = process.env.JWT_EXPIRATION_TIME || "";
 
 interface JwtArgs {
   username: string;
@@ -10,5 +11,5 @@ interface JwtArgs {
 export const getToken = (args: JwtArgs) =>
   jwt.sign(args, JWT_SECRET_KEY, {
     algorithm: "HS512",
-    expiresIn: Date.now() + JWT_EXPIRATION_TIME,
+    expiresIn: 90,
   });
