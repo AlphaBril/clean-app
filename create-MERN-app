@@ -48,7 +48,12 @@ npm install \
 	jsonwebtoken \
 	nodemailer \
 	socket.io \
-	dotenv
+	dotenv \
+	mysql \
+	mongodb \
+	pg \
+	neo4j-driver
+
 npm install --save-dev \
 	@types/express \
 	@types/jsonwebtoken \
