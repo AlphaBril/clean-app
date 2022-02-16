@@ -46,23 +46,28 @@
 
 ## :dart: About ##
 
-Simple sh script to generate an always last to date react-ts-redux with simples features
-Soon with backend api restfull
+Bash script allied with CRA and some personnal files to create a MERN app
 
 ## :sparkles: Features ##
 
-:heavy_check_mark: Last update of react / ts / redux;\
+:heavy_check_mark: Always on the latest versions available;\
 :heavy_check_mark: Simple user connection;\
-:heavy_check_mark: Simple popup message notification;
+:heavy_check_mark: Multiple database implementation;
 
 ## :rocket: Technologies ##
 
 The following tools were used in this project:
 
-- [Node.js](https://nodejs.org/en/) soon
+- [Node.js](https://nodejs.org/en/)
+- [Express](https://expressjs.com/)
 - [React](https://pt-br.reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Redux](https://www.redux.js.org)
+- [Mongo](https://www.mongodb.com/)
+- [Mysql](https://www.mysql.com/)
+- [Postgres](https://www.postgresql.org/)
+- [Neo4j](https://neo4j.com/)
+- [Docker](https://www.docker.com/)
 
 ## :white_check_mark: Requirements ##
 
@@ -78,12 +83,11 @@ $ git clone https://github.com/AlphaBril/clean-app
 $ cd clean-app
 
 # Generate your app
-$ sh init.sh
+$ bash create-MERN-app
 
 # Run your clean-app
 $ cd app && npm start
-
-# The server will initialize in the <http://localhost:3000>
+$ cd api && npm start
 ```
 
 ## :memo: License ##
