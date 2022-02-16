@@ -1,8 +1,5 @@
-import { conflict, info, internalError } from '../../shared/utils';
-import { hashPassword } from './hashPassword';
-import { getToken } from '../../shared/jwt/getToken';
-
-
+import { info, internalError } from "../../shared/utils";
+import { hashPassword } from "./hashPassword";
 
 export const changePassword = async (req: any, res: any) => {
   let token = req.body.token;
@@ -10,12 +7,10 @@ export const changePassword = async (req: any, res: any) => {
 
   try {
     console.log(token, password);
-
     info(`Password Updated !`);
-    return res
-      .status(200);
+    return res.status(200);
   } catch (e) {
     return internalError(res)(e);
   } finally {
-  };
-}
+  }
+};

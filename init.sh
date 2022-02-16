@@ -40,16 +40,13 @@ npm install \
 	dotenv \
 	jsonwebtoken \
 	nodemailer \
-	socker.io \
-	ts-node \
+	socket.io \
 	dotenv
 npm install --save-dev \
 	@types/express \
-	@types/jsonwebtoken
-	concurrently \
+	@types/jsonwebtoken \
 	nodemon \
-	eslint \
-	prettier \
-	eslint-config-prettier \
-	eslint-plugin-prettier \
-	typescript
+	eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser \
+	prettier eslint-config-prettier eslint-plugin-prettier \
+	typescript \
+	ts-node
