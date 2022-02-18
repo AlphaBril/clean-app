@@ -1,15 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-const LOGIN_FAILURE = "LOGIN_FAILURE";
-const LOGOUT = "LOGOUT";
-
-export interface AuthenticationType {
+export interface AuthenticationState {
   isAuthenticated: boolean;
   user: string;
 }
 
-const initialState: AuthenticationType = {
+const initialState: AuthenticationState = {
   isAuthenticated: false,
   user: "",
 };
@@ -18,27 +14,20 @@ export const authSlice = createSlice({
   name: "authetication",
   initialState,
   reducers: {
-    auth: (state, action: PayloadAction<AuthenticationType>) => {
-      const { type, payload } = action;
-
-      switch (type) {
-        case LOGIN_SUCCESS:
-          state.isAuthenticated = true;
-          state.user = payload.user;
-          return state;
-        case LOGIN_FAILURE:
-          state.isAuthenticated = initialState.isAuthenticated;
-          state.user = initialState.user;
-          return state;
-        case LOGOUT:
-          state.isAuthenticated = initialState.isAuthenticated;
-          state.user = initialState.user;
-          return state;
-        default:
-          return state;
-      }
+    loginSuccess: (state, action: PayloadAction<AuthenticationState>) => {
+      state.isAuthenticated = action.payload.isAuthenticated;
+      state.user = action.payload.user;
+    },
+    loginFailure: (state) => {
+      state.isAuthenticated = initialState.isAuthenticated;
+      state.user = initialState.user;
+    },
+    loginOut: (state) => {
+      state.isAuthenticated = initialState.isAuthenticated;
+      state.user = initialState.user;
     },
   },
 });
 
+export const { loginSuccess, loginFailure, loginOut } = authSlice.actions;
 export default authSlice.reducer;

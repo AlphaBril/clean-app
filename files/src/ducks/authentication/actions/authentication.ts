@@ -1,10 +1,17 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "src/hooks/hooks";
+import {
+  loginSuccess,
+  loginFailure,
+  loginOut,
+  AuthenticationState,
+} from "src/ducks/authentication/authenticationSlice";
+import { MessageState, setMessage } from "src/ducks/message/messageSlice";
 import axios from "axios";
 
 import { SignupData } from "src/components/Auth/components/Signup/Signup.d";
-// import { socket } from "src/hooks/useSocket"; TODO activate with api on
+import { socket } from "src/hooks/useSocket";
 
 const PORT = 3001;
 const ADDRESS = "localhost";
@@ -21,81 +28,92 @@ const UPDATE_NAME_ENDPOINT = "/api/auth/name";
 const RECOVER_PASSWORD_ENDPOINT = "/api/auth/recovery";
 
 const handleError = (dispatch: any, error: any) => {
-  const message = error.response.data.message || error.response.data.errno;
-  dispatch({ type: "LOGIN_FAILURE" });
-  dispatch({ type: "ERROR_MESSAGE", payload: message });
+  const err = error.response.data.message || error.response.data.errno;
+  const message: MessageState = { value: err, status: "error" };
+  dispatch(loginFailure());
+  dispatch(setMessage(message));
 };
 
 const setUser = (dispatch: any, res: any, navigate: any) => {
   const token = res.data.token;
   localStorage.setItem("user", token);
-  dispatch({ type: "LOGIN_SUCCESS", payload: token });
-  // socket.emit("order:update", token); TODO activate with api on
+  const user: AuthenticationState = { isAuthenticated: true, user: token };
+  dispatch(loginSuccess(user));
+  socket.emit("order:update", token);
   navigate("/");
 };
 
 const userRegistrated = (dispatch: any, res: any, navigate: any) => {
-  dispatch({
-    type: "SET_MESSAGE",
-    payload: "Registration success, you need to validate your mail",
-  });
+  const message: MessageState = {
+    value: "Registration success, you need to validate your mail",
+    status: "success",
+  };
+  dispatch(setMessage(message));
   navigate("/auth/login");
 };
 
 const userActivated = (dispatch: any, res: any) => {
-  dispatch({
-    type: "SET_MESSAGE",
-    payload: "Your account is now activated, please log in",
-  });
+  const message: MessageState = {
+    value: "Your account is now activated, please log in",
+    status: "info",
+  };
+  dispatch(setMessage(message));
 };
 
 const passwordChanged = (dispatch: any, res: any) => {
-  dispatch({
-    type: "SET_MESSAGE",
-    payload: "Your password was updated, please log in",
-  });
+  const message: MessageState = {
+    value: "Your password was updated, please log in",
+    status: "info",
+  };
+  dispatch(setMessage(message));
 };
 
 const emailSent = (dispatch: any, res: any) => {
-  dispatch({
-    type: "SET_MESSAGE",
-    payload: "An email has been sent",
-  });
+  const message: MessageState = {
+    value: "An email has been sent",
+    status: "success",
+  };
+  dispatch(setMessage(message));
 };
 
 const emailChanged = (dispatch: any, res: any) => {
-  dispatch({
-    type: "SET_MESSAGE",
-    payload: "Your email was updated",
-  });
+  const message: MessageState = {
+    value: "Your email was updated",
+    status: "info",
+  };
+  dispatch(setMessage(message));
 };
 
 const usernameChanged = (dispatch: any, res: any) => {
-  dispatch({
-    type: "SET_MESSAGE",
-    payload: "Your username was updated",
-  });
+  const message: MessageState = {
+    value: "Your username was updated",
+    status: "info",
+  };
+  dispatch(setMessage(message));
 };
 
 const surnameChanged = (dispatch: any, res: any) => {
-  dispatch({
-    type: "SET_MESSAGE",
-    payload: "Your surname was updated",
-  });
+  const message: MessageState = {
+    value: "Your surname was updated",
+    status: "info",
+  };
+  dispatch(setMessage(message));
 };
 
 const nameChanged = (dispatch: any, res: any) => {
-  dispatch({
-    type: "SET_MESSAGE",
-    payload: "Your name was updated",
-  });
+  const message: MessageState = {
+    value: "Your name was updated",
+    status: "info",
+  };
+  dispatch(setMessage(message));
 };
 
 const passswordChanged = (dispatch: any, res: any) => {
-  dispatch({
-    type: "SET_MESSAGE",
-    payload: "Your password was updated",
-  });
+  const message: MessageState = {
+    value: "Your password was updated",
+    status: "info",
+  };
+  dispatch(setMessage(message));
 };
 
 const login =
@@ -110,7 +128,7 @@ const login =
     );
 
 const logout = (navigate: any) => (dispatch: any) => {
-  dispatch({ type: "LOGOUT" });
+  dispatch(loginOut());
   localStorage.removeItem("user");
   navigate("/");
 };
