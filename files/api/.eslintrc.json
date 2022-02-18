@@ -1,20 +1,16 @@
 {
   "extends": [
       "eslint:recommended",
-      "plugin:react/recommended",
       "plugin:@typescript-eslint/recommended",
-      "plugin:jest/recommended",
       "plugin:prettier/recommended"
   ],
   "plugins": [
-      "react",
       "@typescript-eslint",
-      "jest"
+      "prettier"
   ],
   "env": {
       "browser": true,
-      "es2021": true,
-      "jest": true
+      "es2021": true
   },
   "globals": {
       "Atomics": "readonly",
