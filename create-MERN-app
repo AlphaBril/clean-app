@@ -11,6 +11,7 @@ npm install \
 	@typescript-eslint/eslint-plugin \
 	@typescript-eslint/parser \
 	@types/jsonwebtoken \
+	@types/antd \
 	eslint-config-prettier \
 	eslint-plugin-jest \
 	eslint-plugin-react \

@@ -6,7 +6,7 @@ import jwt from "jwt-decode";
 
 const Display: React.FC<{ message: string }> = (props) => {
   const [username, setUsername] = useState("");
-  const [timeleft, setTimeleft] = useState("");
+  // const [timeleft, setTimeleft] = useState("");
   const user = localStorage.getItem("user");
   const { pushState } = useNavigation();
 
@@ -17,7 +17,7 @@ const Display: React.FC<{ message: string }> = (props) => {
   useMemo(() => {
     if (user) {
       const decoded: JwtPayload = jwt(user);
-      setTimeleft(new Date(Date.now() + decoded.exp!).toDateString());
+      // setTimeleft(new Date(Date.now() + decoded.exp!).toDateString());
       setUsername(decoded.username);
     }
   }, [user]);
@@ -26,7 +26,7 @@ const Display: React.FC<{ message: string }> = (props) => {
       <Col>
         {props.message ? props.message : null} {username}
       </Col>
-      <Col>Your token expire in {timeleft}</Col>
+      {/* <Col>Your token expire in {timeleft}</Col> */}
       <Col>
         <Button onClick={() => disconnect()}>Disconnect</Button>
       </Col>
