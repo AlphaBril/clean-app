@@ -23,7 +23,7 @@ npm install \
 	i18next react-i18next i18next-browser-languagedetector \
 	react-router-dom \
 	jsonwebtoken socket.io-client jwt-decode
-cp ../files/.eslintrc.js ./
+cp ../files/.eslintrc.json ./
 cp ../files/tsconfig.json ./
 cd src
 cp ../../files/src/App.route.tsx ./
