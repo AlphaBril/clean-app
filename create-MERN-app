@@ -3,7 +3,7 @@ echo Name of you app
 read folder
 mkdir $folder
 cd $folder
-wget https://github.com/AlphaBril/clean-app/releases/download/v1.2/files.tar.gz &> /dev/null
+wget https://github.com/AlphaBril/clean-app/releases/download/v1.0/files.tar.gz &> /dev/null
 tar -xvf files.tar.gz &> /dev/null
 npx create-react-app app --template redux-typescript
 cd app
