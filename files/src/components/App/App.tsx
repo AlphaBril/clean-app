@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
 
-import { Modal } from "antd";
+import { message } from "antd";
 
 import { Layout, Typography } from "antd";
 import {
@@ -15,40 +15,24 @@ import styles from "./App.module.css";
 const { Content, Header } = Layout;
 
 const App: React.FC = () => {
-  const message = useMessage();
+  const messageState = useMessage();
   const { clearMessage } = useMessageActions();
 
-  const countDown = (text: string, error: string) => {
-    let secondsToGo = 3;
-    let modal: any;
-    if (error === "error") {
-      modal = Modal.error({
-        title: text,
-      });
-    } else {
-      modal = Modal.success({
-        title: text,
-      });
+  useMemo(() => {
+    if (messageState.status === "error") {
+      message.error(messageState.value);
+    } else if (messageState.status === "success") {
+      message.success(messageState.value);
+    } else if (messageState.status === "info") {
+      message.info(messageState.value);
     }
-    const timer = setInterval(() => {
-      secondsToGo -= 1;
-      modal.update({});
-    }, 1000);
-    setTimeout(() => {
-      clearInterval(timer);
-      clearMessage();
-      modal.destroy();
-    }, secondsToGo * 1000);
-  };
-
-  if (message && message.value) {
-    countDown(message.value, message.status);
-  }
+    clearMessage();
+  }, [message, messageState]);
 
   return (
     <Layout>
       <Header>
-        <Typography.Title style={{ color: "#aaaaaa" }}>MATCHA</Typography.Title>
+        <Typography.Title style={{ color: "#aaaaaa" }}>CLEAN-APP</Typography.Title>
       </Header>
       <Content className={styles.content}>
         <Routes />

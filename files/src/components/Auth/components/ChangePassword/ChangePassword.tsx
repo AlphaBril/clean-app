@@ -6,6 +6,8 @@ import { Row, Form, Input, Spin, Button } from "antd";
 import { useAuthentication } from "src/ducks/authentication/actions/authentication";
 import { useNavigation } from "src/ducks/navigation/navigation";
 
+import { FormData } from "./ChangePassword.d";
+
 const ChangePassword: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState("");
@@ -22,9 +24,9 @@ const ChangePassword: React.FC = () => {
     } else pushState("/auth");
   }, [pushState]);
 
-  const handleChangePassword = (info: any) => {
+  const handleChangePassword = (values: FormData) => {
     setLoading(true);
-    changePassword(token, info.password);
+    changePassword(token, values.password);
     setLoading(false);
   };
 
