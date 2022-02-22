@@ -1,5 +1,5 @@
 <div align="center" id="top"> 
-  <img src="./files/MrPropre.jpg" alt="Clean App" />
+  <img src="./files/MrPropre.png" alt="Clean App" />
 
   &#xa0;
 
