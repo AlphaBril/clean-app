@@ -1,0 +1,36 @@
+{
+  "name": "clean-app",
+  "version": "1.0.0",
+  "description": "A simple cli to create a simple app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlphaBril/clean-app.git"
+  },
+  "keywords": [
+    "generate",
+    "clean-app",
+    "clean",
+    "app",
+    "generate",
+    "clean-app"
+  ],
+  "author": "AlphaBril",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlphaBril/clean-app/issues"
+  },
+  "homepage": "https://github.com/AlphaBril/clean-app#readme",
+  "bin": {
+    "generate-clean-app": "./cli.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "chalk": "^5.0.0",
+    "create-react-app": "^5.0.0",
+    "meow": "^10.1.2"
+  }
+}
