@@ -1,5 +1,5 @@
 {
-  "name": "clean-app",
+  "name": "generate-clean-app",
   "version": "1.0.0",
   "description": "A simple cli to create a simple app",
   "main": "index.js",

@@ -76,18 +76,11 @@ Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) an
 ## :checkered_flag: Starting ##
 
 ```bash
-# Clone this project
-$ git clone https://github.com/AlphaBril/clean-app
-
-# Access
-$ cd clean-app
+# Install the npm package globally
+npm install -g generate-clean-app
 
 # Generate your app
-$ bash create-MERN-app
-
-# Run your clean-app
-$ cd app && npm start
-$ cd api && npm start
+generate-clean-app <app-name>
 ```
 
 ## Git ##
