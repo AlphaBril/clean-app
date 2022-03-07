@@ -25,7 +25,7 @@ const generateCleanApp = (input, flags, showHelp) => {
         }
     })
     generateFront(input[0]);
-    // generateBack(input[0], flags.database);
+    generateBack(input[0], flags.database);
 }
 
 export default generateCleanApp;

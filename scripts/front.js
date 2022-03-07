@@ -1,9 +1,11 @@
 import { execSync } from "child_process";
+import copydir from 'copy-dir';
+import { copyFileSync } from "fs";
+import path from "path";
 const dependencies = [
     '@typescript-eslint/eslint-plugin',
     '@typescript-eslint/parser',
     '@types/jsonwebtoken',
-    '@types/antd',
     'eslint-config-prettier',
     'eslint-plugin-jest',
     'eslint-plugin-react',
@@ -19,7 +21,7 @@ const dependencies = [
     'react-router-dom',
     'jsonwebtoken',
     'socket.io',
-    'socker.io-client',
+    'socket.io-client',
     'jwt-decode'
 ];
 
@@ -34,6 +36,40 @@ const generateFront = (folder) => {
     });
     console.log('Installing dependencies');
     execSync('npm install ' + dependencies.join(' '), {
+        cwd: folder + '/app'
+    }, (err) => {
+        if (err) {
+            console.error(err);
+        }
+    });
+    const origin = import.meta.url;
+    const fileDir = path.resolve(new URL(origin).pathname, '../../files/');
+    console.log('Populating config files');
+    copyFileSync(fileDir + '/.eslintrc.json', folder + '/app/.eslintrc.json');
+    copyFileSync(fileDir + '/tsconfig.json', folder + '/app/tsconfig.json');
+    copyFileSync(fileDir + '/src/App.route.tsx', folder + '/app/src/App.route.tsx');
+    copyFileSync(fileDir + '/src/App.test.tsx', folder + '/app/src/App.test.tsx');
+    copyFileSync(fileDir + '/src/App.tsx', folder + '/app/src/App.tsx');
+    copyFileSync(fileDir + '/src/App.css', folder + '/app/src/App.css');
+    copyFileSync(fileDir + '/src/index.tsx', folder + '/app/src/index.tsx');
+
+    console.log('Populating core files');
+    copydir.sync(fileDir + '/src/components', folder + '/app/src/components');
+    copydir.sync(fileDir + '/src/ducks', folder + '/app/src/ducks');
+    copydir.sync(fileDir + '/src/hooks', folder + '/app/src/hooks');
+    copydir.sync(fileDir + '/src/store', folder + '/app/src/store');
+    copydir.sync(fileDir + '/src/utils', folder + '/app/src/utils');
+
+    console.log('Removing CRA remnants');
+    execSync('rm -rf src/app src/features .git', {
+        cwd: folder + '/app'
+    }, (err) => {
+        if (err) {
+            console.error(err);
+        }
+    });
+    console.log('Running prettier');
+    execSync('npx prettier --write ./src', {
         cwd: folder + '/app'
     }, (err) => {
         if (err) {

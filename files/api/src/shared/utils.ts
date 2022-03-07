@@ -1,3 +1,4 @@
+/* eslint-disable */ 
 type LogStatus = "INFO" | "WARN" | "ERNO" | "RESET";
 enum LogColor {
   INFO = "\x1b[32m",
