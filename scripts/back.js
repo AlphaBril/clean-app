@@ -1,4 +1,5 @@
 import { execSync } from "child_process";
+import { copyFileSync } from "fs";
 import copydir from 'copy-dir';
 import path from "path";
 
@@ -36,7 +37,7 @@ const devDependencies = [
 const generateBack = (folder, database) => {
     const origin = import.meta.url;
     const fileDir = path.resolve(new URL(origin).pathname, '../../files/');
-    copyFileSync(fileDir + '/api/.env', folder + '/api/.env');
+    copyFileSync(fileDir + '/api/example', folder + '/api/.env');
     copyFileSync(fileDir + '/api/.gitignore', folder + '/api/.gitignore');
     console.log('Generating backend with ' + database);
     copydir.sync(fileDir + '/api', folder + '/api');
