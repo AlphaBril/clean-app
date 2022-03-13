@@ -37,10 +37,10 @@ const devDependencies = [
 const generateBack = (folder, database) => {
     const origin = import.meta.url;
     const fileDir = path.resolve(new URL(origin).pathname, '../../files/');
-    copyFileSync(fileDir + '/api/example', folder + '/api/.env');
-    copyFileSync(fileDir + '/api/.gitignore', folder + '/api/.gitignore');
     console.log('Generating backend with ' + database);
     copydir.sync(fileDir + '/api', folder + '/api');
+    copyFileSync(fileDir + '/api/.env', folder + '/api/.env');
+    copyFileSync(fileDir + '/api/.gitignore', folder + '/api/.gitignore');
     console.log('Installing dependencies');
     execSync('npm install ' + dependencies.join(' '), {
         cwd: folder + '/api'
