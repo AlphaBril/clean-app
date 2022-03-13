@@ -26,7 +26,11 @@ const devDependencies = [
     'eslint-config-prettier',
     'eslint-plugin-prettier',
     'typescript',
-    'ts-node'
+    'ts-node',
+    '@types/bcrypt',
+    '@types/mysql',
+    '@types/nodemailer',
+    '@types/pg'
 ]
 
 const generateBack = (folder, database) => {
@@ -44,7 +48,7 @@ const generateBack = (folder, database) => {
         }
     });
     console.log('Installing dev dependencies');
-    execSync('npm install ' + devDependencies.join(' '), {
+    execSync('npm install --save-dev ' + devDependencies.join(' '), {
         cwd: folder + '/api'
     }, (err) => {
         if (err) {
