@@ -1,4 +1,5 @@
-/* eslint-disable */ 
+import { response } from "../express.d";
+
 type LogStatus = "INFO" | "WARN" | "ERNO" | "RESET";
 enum LogColor {
   INFO = "\x1b[32m",
@@ -7,7 +8,7 @@ enum LogColor {
   RESET = "\x1b[0m",
 }
 
-export const log = (status: LogStatus, ...args: any[]): void => {
+export const log = (status: LogStatus, ...args: unknown[]): void => {
   const time = new Date();
   console.info(
     LogColor[status],
@@ -18,24 +19,25 @@ export const log = (status: LogStatus, ...args: any[]): void => {
     ...args
   );
 };
-export const warn = (...args: any[]): void => log("WARN", ...args);
-export const error = (...args: any[]): void => log("ERNO", ...args);
-export const info = (...args: any[]): void => log("INFO", ...args);
+export const warn = (...args: unknown[]): void => log("WARN", ...args);
+export const error = (...args: unknown[]): void => log("ERNO", ...args);
+export const info = (...args: unknown[]): void => log("INFO", ...args);
 
-export const resError = (res: any, status: number, message: string) => {
+export const resError = (res: response, status: number, message: string) => {
   error(message);
   return res.status(status).json({ message });
 };
-export const resWarn = (res: any, status: number, message: string) => {
+export const resWarn = (res: response, status: number, message: string) => {
   warn(message);
   return res.status(status).json({ message });
 };
-export const notFound = (res: any, message: string) =>
+export const notFound = (res: response, message: string) =>
   resWarn(res, 404, message);
-export const unauthorized = (res: any, message: string) =>
+export const unauthorized = (res: response, message: string) =>
   resWarn(res, 401, message);
-export const conflict = (res: any, message: string) =>
+export const conflict = (res: response, message: string) =>
   resWarn(res, 409, message);
-export const badRequest = (res: any, message: string) =>
+export const badRequest = (res: response, message: string) =>
   resWarn(res, 400, message);
-export const internalError = (res: any) => (e: any) => resError(res, 500, e);
+export const internalError = (res: response) => (e: unknown) =>
+  resError(res, 500, e as string);

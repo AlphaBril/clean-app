@@ -32,6 +32,7 @@ const devDependencies = [
 const generateBack = (folder, database) => {
     const origin = import.meta.url;
     const fileDir = path.resolve(new URL(origin).pathname, '../../files/');
+    copyFileSync(fileDir + '/api/.env', folder + '/api/.env');
     console.log('Generating backend with ' + database);
     copydir.sync(fileDir + '/api', folder + '/api');
     console.log('Installing dependencies');

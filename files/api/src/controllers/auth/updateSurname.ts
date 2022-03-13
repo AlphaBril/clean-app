@@ -1,7 +1,8 @@
 import { info, internalError } from "../../shared/utils";
+import { request, response } from "../../express.d";
 
-export const changeSurname = async (req: any, res: any) => {
-  let token = req.body.token;
+export const changeSurname = async (req: request, res: response) => {
+  const token = req.body.token;
   const surname = req.body.surname;
 
   try {
@@ -10,6 +11,5 @@ export const changeSurname = async (req: any, res: any) => {
     return res.status(200);
   } catch (e) {
     return internalError(res)(e);
-  } finally {
   }
 };

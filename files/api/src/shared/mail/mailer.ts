@@ -1,4 +1,5 @@
-const nodemailer = require("nodemailer");
+import nodemailer = require("nodemailer");
+import SMTPTransport = require("nodemailer/lib/smtp-transport");
 
 export const SMTP_USERNAME = process.env.SMTP_USERNAME || "";
 export const SMTP_SECRET = process.env.SMTP_SECRET || "";
@@ -58,11 +59,14 @@ export const sendMail = (
     }
   }
 
-  transporter.sendMail(mailOptions, function (error: any, info: any) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
+  transporter.sendMail(
+    mailOptions,
+    function (error: Error | null, info: SMTPTransport.SentMessageInfo) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
     }
-  });
+  );
 };

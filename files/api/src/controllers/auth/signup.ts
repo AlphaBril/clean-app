@@ -2,8 +2,9 @@ import { getToken } from "../../shared/jwt/getToken";
 import { info, internalError } from "../../shared/utils";
 import { hashPassword } from "./hashPassword";
 import { ACTIVATION_EMAIL, sendMail } from "../../shared/mail/mailer";
+import { request, response } from "../../express.d";
 
-export const signup = async (req: any, res: any) => {
+export const signup = async (req: request, res: response) => {
   const { username, email, password, name, surname } = req.body;
   const active = false;
   const valid = false;
@@ -27,6 +28,5 @@ export const signup = async (req: any, res: any) => {
     return res.status(200);
   } catch (e) {
     return internalError(res)(e);
-  } finally {
   }
 };

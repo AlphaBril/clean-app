@@ -1,7 +1,8 @@
 import { info, internalError } from "../../shared/utils";
 import { CHANGE_PASSWORD_EMAIL, sendMail } from "../../shared/mail/mailer";
+import { request, response } from "../../express.d";
 
-export const recoverPassword = async (req: any, res: any) => {
+export const recoverPassword = async (req: request, res: response) => {
   const email = req.body.email;
 
   try {
@@ -10,6 +11,5 @@ export const recoverPassword = async (req: any, res: any) => {
     return res.status(200);
   } catch (e) {
     return internalError(res)(e);
-  } finally {
   }
 };
