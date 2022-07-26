@@ -40,7 +40,7 @@ const generateBack = (folder, database) => {
     console.log('Generating backend with ' + database);
     copydir.sync(fileDir + '/api', folder + '/api');
     copyFileSync(fileDir + '/api/env-example', folder + '/api/.env');
-    copyFileSync(fileDir + '/api/.gitignore', folder + '/api/.gitignore');
+    copyFileSync(fileDir + '/api/gitignore-example', folder + '/api/.gitignore');
     console.log('Installing dependencies');
     execSync('npm install ' + dependencies.join(' '), {
         cwd: folder + '/api'
