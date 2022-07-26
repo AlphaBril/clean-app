@@ -39,7 +39,7 @@ const generateBack = (folder, database) => {
     const fileDir = path.resolve(new URL(origin).pathname, '../../files/');
     console.log('Generating backend with ' + database);
     copydir.sync(fileDir + '/api', folder + '/api');
-    copyFileSync(fileDir + '/api/.env', folder + '/api/.env');
+    copyFileSync(fileDir + '/api/env-example', folder + '/api/.env');
     copyFileSync(fileDir + '/api/.gitignore', folder + '/api/.gitignore');
     console.log('Installing dependencies');
     execSync('npm install ' + dependencies.join(' '), {
