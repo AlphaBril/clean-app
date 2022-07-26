@@ -1,6 +1,6 @@
 {
   "name": "generate-clean-app",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A simple cli to create a simple app",
   "main": "index.js",
   "scripts": {
