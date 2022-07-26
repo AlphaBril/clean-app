@@ -27,6 +27,13 @@ const dependencies = [
 
 const generateFront = (folder) => {
     console.log('Generating front with CRA');
+    execSync('npm install create-react-app', {
+        cwd: folder
+    }, (err) => {
+        if (err) {
+            console.error(err);
+        }
+    });
     execSync('npx create-react-app app --template redux-typescript', {
         cwd: folder
     }, (err) => {
