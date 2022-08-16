@@ -1,5 +1,5 @@
 import express from "express";
-import userRoutes from "./routes/user";
+import userRoutes from "./modules/user/user";
 
 const app = express();
 app.use(express.static("public"));
