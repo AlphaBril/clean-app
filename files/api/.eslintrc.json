@@ -1,4 +1,5 @@
 {
+  "root": true,
   "extends": [
       "eslint:recommended",
       "plugin:@typescript-eslint/recommended",
@@ -23,7 +24,7 @@
       },
       "ecmaVersion": "latest",
       "sourceType": "module",
-      "project": "./tsconfig.json"
+      "project": "api/tsconfig.json"
   },
   "rules": {
       "linebreak-style": "off",

@@ -5,19 +5,16 @@ import { existsSync } from "fs";
 
 const generateCleanApp = (input, flags, showHelp) => {
     if (!input[0] || input[1]) {
-        console.log('sortie 1');
         showHelp([2]);
     }
     if (flags) {
         const list = Object.keys(flags);
         if (list.length > 1 || (list.length === 1 && list[0] !== 'database')) {
-            console.log('sortie 2');
             showHelp([2]);
         }
         if (flags.database) {
             if (flags.database !== 'mysql' && flags.database !== 'mongo'
                 && flags.database !== 'neo4j' && flags.database !== 'postgres') {
-                    console.log('sortie 3');
                     showHelp([2]);
                 }
         }

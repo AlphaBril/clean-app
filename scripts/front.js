@@ -3,6 +3,18 @@ import copydir from 'copy-dir';
 import { copyFileSync } from "fs";
 import path from "path";
 const dependencies = [
+    'antd',
+    'axios',
+    'i18next',
+    'react-i18next',
+    'i18next-browser-languagedetector',
+    'react-router-dom',
+    'jsonwebtoken',
+    'socket.io-client',
+    'jwt-decode'
+];
+
+const devDependencies = [
     '@typescript-eslint/eslint-plugin',
     '@typescript-eslint/parser',
     '@types/jsonwebtoken',
@@ -13,16 +25,6 @@ const dependencies = [
     'eslint-plugin-prettier',
     'eslint-plugin-import',
     'prettier',
-    'antd',
-    'axios',
-    'i18next',
-    'react-i18next',
-    'i18next-browser-languagedetector',
-    'react-router-dom',
-    'jsonwebtoken',
-    'socket.io',
-    'socket.io-client',
-    'jwt-decode'
 ];
 
 const generateFront = (folder) => {
@@ -43,6 +45,14 @@ const generateFront = (folder) => {
     });
     console.log('Installing dependencies');
     execSync('npm install ' + dependencies.join(' '), {
+        cwd: folder + '/app'
+    }, (err) => {
+        if (err) {
+            console.error(err);
+        }
+    });
+    console.log('Installing dev dependencies');
+    execSync('npm install ' + dependencies.join(' ') + ' --save-dev', {
         cwd: folder + '/app'
     }, (err) => {
         if (err) {
