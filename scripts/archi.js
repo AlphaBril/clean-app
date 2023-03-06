@@ -2,6 +2,7 @@ import { execSync } from "child_process";
 import generateBack from "./back.js";
 import generateFront from './front.js';
 import { existsSync } from "fs";
+import copydir from 'copy-dir';
 
 const generateCleanApp = (input, flags, showHelp) => {
     if (!input[0] || input[1]) {
@@ -28,6 +29,9 @@ const generateCleanApp = (input, flags, showHelp) => {
                 console.error(err);
             }
         })
+        const origin = import.meta.url;
+        const fileDir = path.resolve(new URL(origin).pathname, '../../files/');
+        copydir.sync(fileDir + '/.vscode', folder + '/.vscode');
         generateFront(input[0]);
         generateBack(input[0], flags.database);
     }

@@ -52,7 +52,7 @@ const generateFront = (folder) => {
         }
     });
     console.log('Installing dev dependencies');
-    execSync('npm install ' + dependencies.join(' ') + ' --save-dev', {
+    execSync('npm install ' + devDependencies.join(' ') + ' --save-dev', {
         cwd: folder + '/app'
     }, (err) => {
         if (err) {
