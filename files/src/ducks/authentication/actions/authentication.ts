@@ -29,8 +29,9 @@ const UPDATE_NAME_ENDPOINT = "/api/auth/name";
 const RECOVER_PASSWORD_ENDPOINT = "/api/auth/recovery";
 
 const handleError = (dispatch: AppDispatch, error: AxiosError) => {
-  const err = error.response?.data.message || error.response?.data.errno;
-  const message: MessageState = { value: err, status: "error" };
+  const err = error.response?.data as { message: string; errno: string };
+  const errmessage = (err.message || err.errno) as string;
+  const message: MessageState = { value: errmessage, status: "error" };
   dispatch(loginFailure());
   dispatch(setMessage(message));
 };

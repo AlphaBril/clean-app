@@ -32,7 +32,9 @@ const App: React.FC = () => {
   return (
     <Layout>
       <Header>
-        <Typography.Title style={{ color: "#aaaaaa" }}>CLEAN-APP</Typography.Title>
+        <Typography.Title style={{ color: "#aaaaaa" }}>
+          CLEAN-APP
+        </Typography.Title>
       </Header>
       <Content className={styles.content}>
         <Routes />

@@ -12,6 +12,12 @@ const resources = {
   fr: preload("fr"),
 };
 
+declare module "i18next" {
+  interface CustomTypeOptions {
+    returnNull: false;
+  }
+}
+
 i18n
   .use(detector)
   .use(initReactI18next)
@@ -19,6 +25,7 @@ i18n
     resources,
     lng: "en",
     defaultNS: "common",
+    returnNull: false,
 
     keySeparator: false, // we do not use keys in form messages.welcome
 

@@ -1,4 +1,3 @@
 export interface FormData {
-    email: string;
-  }
-  
+  email: string;
+}

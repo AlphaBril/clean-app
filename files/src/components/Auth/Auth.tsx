@@ -8,7 +8,6 @@ import ChangePasswordComponent from "./components/ChangePassword/ChangePassword"
 import PasswordRecoveryComponent from "./components/PasswordRecovery/PasswordRecovery";
 
 const Auth: React.FC = () => {
-
   return (
     <Routes>
       <Route path="signup" element={<SignupComponent />}></Route>
