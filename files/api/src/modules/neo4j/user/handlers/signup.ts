@@ -1,8 +1,8 @@
-import { getSession } from "../../../shared/neo4j/neo4j";
-import { getToken } from "../../../shared/jwt/getToken";
-import { info, internalError, conflict } from "../../../shared/utils";
+import { getSession } from "@shared/neo4j/neo4j";
+import { getToken } from "@shared/jwt/getToken";
+import { info, internalError, conflict } from "@shared/utils";
 import { hashPassword } from "../utils/hashPassword";
-import { ACTIVATION_EMAIL, sendMail } from "../../../shared/mail/mailer";
+import { ACTIVATION_EMAIL, sendMail } from "@shared/mail/mailer";
 import { createUser } from "../utils/createUser";
 import { countSimilarUsers } from "../utils/countUser";
 

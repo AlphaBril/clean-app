@@ -1,26 +1,26 @@
-import { getSession } from "../../../shared/neo4j/neo4j";
-import { conflict, info, internalError } from "../../../shared/utils";
-import { getToken } from "../../../shared/jwt/getToken";
+import { getSession } from "@shared/neo4j/neo4j";
+import { conflict, info, internalError } from "@shared/utils";
+import { hashPassword } from "../utils/hashPassword";
+import { getToken } from "@shared/jwt/getToken";
 import { getUser } from "../utils/getUser";
 import { updateUser } from "../utils/updateUser";
 
-export const activateUser = async (req: any, res: any) => {
+export const changePassword = async (req: any, res: any) => {
   const session = getSession();
   let token = req.body.token;
+  const password = await hashPassword(req.body.password);
 
   try {
     const userInfo = await getUser(session, { token });
     if (!userInfo[0]) {
       return conflict(res, `Your token is invalid`);
     } else {
-      const active = true;
-      const email = userInfo[0].properties.Email;
       const username = userInfo[0].properties.Username;
       token = getToken({ username });
       const updated = await updateUser(
         session,
-        { token, email, username, active },
-        req.body.token
+        { password, token },
+        userInfo[0].properties.Token
       );
       if (!updated[0] || token !== updated[0].properties.Token)
         return conflict(
@@ -29,8 +29,8 @@ export const activateUser = async (req: any, res: any) => {
         );
     }
 
-    info(`User activated !`);
-    return res.status(200).json({ userInfo });
+    info(`Password Updated !`);
+    return res.status(200).json({ token });
   } catch (e) {
     return internalError(res)(e);
   } finally {

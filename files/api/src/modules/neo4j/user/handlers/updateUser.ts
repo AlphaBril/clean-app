@@ -1,5 +1,5 @@
-import { getSession } from "../../../shared/neo4j/neo4j";
-import { info, internalError } from "../../../shared/utils";
+import { getSession } from "@shared/neo4j/neo4j";
+import { info, internalError } from "@shared/utils";
 import { updateUser } from "../utils/updateUser";
 
 export const updateUserInfo = async (req: any, res: any) => {

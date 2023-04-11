@@ -1,6 +1,6 @@
-import { getSession } from "../../../shared/neo4j/neo4j";
-import { getToken } from "../../../shared/jwt/getToken";
-import { info, internalError, conflict } from "../../../shared/utils";
+import { getSession } from "@shared/neo4j/neo4j";
+import { getToken } from "@shared/jwt/getToken";
+import { info, internalError, conflict } from "@shared/utils";
 import { checkPassword } from "../utils/checkPassword";
 import { updateUser } from "../utils/updateUser";
 import { getUser } from "../utils/getUser";

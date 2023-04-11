@@ -1,5 +1,5 @@
 import { Session } from "neo4j-driver";
-import { generateParams } from "../../../shared/utils";
+import { generateParams } from "@shared/utils";
 import { User } from "./user";
 
 export const countSimilarUsers = async (session: Session, user: User) => {

@@ -31,7 +31,8 @@ const devDependencies = [
     '@types/bcrypt',
     '@types/mysql',
     '@types/nodemailer',
-    '@types/pg'
+    '@types/pg',
+    'tsconfig-paths'
 ]
 
 const generateBack = (folder, database) => {

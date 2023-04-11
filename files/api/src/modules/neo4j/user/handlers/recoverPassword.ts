@@ -1,6 +1,6 @@
-import { getSession } from "../../../shared/neo4j/neo4j";
-import { conflict, info, internalError } from "../../../shared/utils";
-import { CHANGE_PASSWORD_EMAIL, sendMail } from "../../../shared/mail/mailer";
+import { getSession } from "@shared/neo4j/neo4j";
+import { conflict, info, internalError } from "@shared/utils";
+import { CHANGE_PASSWORD_EMAIL, sendMail } from "@shared/mail/mailer";
 import { getUser } from "../utils/getUser";
 
 export const recoverPassword = async (req: any, res: any) => {
