@@ -64,7 +64,7 @@ const userRegistrated = (dispatch: AppDispatch, navigate: NavigateFunction) => {
 const userActivated = (dispatch: AppDispatch) => {
   const message: MessageState = {
     value: "Your account is now activated, please log in",
-    status: "info",
+    status: "warning",
   };
   dispatch(setMessage(message));
 };
@@ -72,7 +72,7 @@ const userActivated = (dispatch: AppDispatch) => {
 const passwordChanged = (dispatch: AppDispatch) => {
   const message: MessageState = {
     value: "Your password was updated, please log in",
-    status: "info",
+    status: "warning",
   };
   dispatch(setMessage(message));
 };
@@ -80,7 +80,7 @@ const passwordChanged = (dispatch: AppDispatch) => {
 const emailChanged = (dispatch: AppDispatch) => {
   const message: MessageState = {
     value: "Your email was updated",
-    status: "info",
+    status: "warning",
   };
   dispatch(setMessage(message));
 };
@@ -88,7 +88,7 @@ const emailChanged = (dispatch: AppDispatch) => {
 const usernameChanged = (dispatch: AppDispatch) => {
   const message: MessageState = {
     value: "Your username was updated",
-    status: "info",
+    status: "warning",
   };
   dispatch(setMessage(message));
 };
@@ -96,7 +96,7 @@ const usernameChanged = (dispatch: AppDispatch) => {
 const surnameChanged = (dispatch: AppDispatch) => {
   const message: MessageState = {
     value: "Your surname was updated",
-    status: "info",
+    status: "warning",
   };
   dispatch(setMessage(message));
 };
@@ -104,7 +104,7 @@ const surnameChanged = (dispatch: AppDispatch) => {
 const nameChanged = (dispatch: AppDispatch) => {
   const message: MessageState = {
     value: "Your name was updated",
-    status: "info",
+    status: "warning",
   };
   dispatch(setMessage(message));
 };
@@ -112,7 +112,7 @@ const nameChanged = (dispatch: AppDispatch) => {
 const passswordChanged = (dispatch: AppDispatch) => {
   const message: MessageState = {
     value: "Your password was updated",
-    status: "info",
+    status: "warning",
   };
   dispatch(setMessage(message));
 };
