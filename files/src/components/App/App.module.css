@@ -1,3 +1,14 @@
+.header {
+  height: 64px;
+}
+
+.title {
+  color: #aaaaaa;
+  padding-inline: 50px;
+  line-height: 64px;
+  margin-top: 10px;
+}
+
 .content {
   min-height: "500px";
   display: "flex";

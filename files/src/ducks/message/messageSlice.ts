@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface MessageState {
   value: string;
-  status: "success" | "error" | "info" | "";
+  status: "success" | "error" | "info" | undefined;
 }
 
 const initialState: MessageState = {
   value: "",
-  status: "",
+  status: undefined,
 };
 
 export const messageSlice = createSlice({

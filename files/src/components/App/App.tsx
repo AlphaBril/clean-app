@@ -1,8 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useEffect } from "react";
 
-import { message } from "antd";
+import { message, Layout, Typography } from "antd";
 
-import { Layout, Typography } from "antd";
 import {
   useMessage,
   useMessageActions,
@@ -13,28 +12,28 @@ import Routes from "./App.route";
 import styles from "./App.module.css";
 
 const { Content, Header } = Layout;
+const { Title } = Typography;
 
 const App: React.FC = () => {
+  const [messageApi, contextHolder] = message.useMessage();
   const messageState = useMessage();
   const { clearMessage } = useMessageActions();
 
-  useMemo(() => {
-    if (messageState.status === "error") {
-      message.error(messageState.value);
-    } else if (messageState.status === "success") {
-      message.success(messageState.value);
-    } else if (messageState.status === "info") {
-      message.info(messageState.value);
+  useEffect(() => {
+    if (messageState.status) {
+      messageApi.open({
+        type: messageState.status,
+        content: messageState.value,
+      });
     }
     clearMessage();
-  }, [message, messageState]);
+  }, [messageState]);
 
   return (
     <Layout>
-      <Header>
-        <Typography.Title style={{ color: "#aaaaaa" }}>
-          CLEAN-APP
-        </Typography.Title>
+      {contextHolder}
+      <Header className={styles.header}>
+        <Title className={styles.title}>CLEAN-APP</Title>
       </Header>
       <Content className={styles.content}>
         <Routes />

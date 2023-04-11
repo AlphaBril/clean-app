@@ -29,9 +29,12 @@ const UPDATE_NAME_ENDPOINT = "/api/auth/name";
 const RECOVER_PASSWORD_ENDPOINT = "/api/auth/recovery";
 
 const handleError = (dispatch: AppDispatch, error: AxiosError) => {
-  const err = error.response?.data as { message: string; errno: string };
-  const errmessage = (err.message || err.errno) as string;
-  const message: MessageState = { value: errmessage, status: "error" };
+  const data = error.response?.data as { [key: string]: unknown };
+  let errorMessage = "An error occured";
+  if (data && typeof data === "object" && data.message) {
+    errorMessage = JSON.stringify(data.message);
+  }
+  const message: MessageState = { value: errorMessage, status: "error" };
   dispatch(loginFailure());
   dispatch(setMessage(message));
 };
