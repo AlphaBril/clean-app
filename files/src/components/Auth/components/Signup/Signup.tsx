@@ -41,12 +41,12 @@ const Signup: React.FC = () => {
         </Form.Item>
 
         <Form.Item
-          label={t("name")}
-          name="name"
+          label={t("firstname")}
+          name="firstname"
           rules={[
             {
               required: true,
-              message: t("name_missing"),
+              message: t("firstname_missing"),
             },
           ]}
         >
@@ -54,12 +54,12 @@ const Signup: React.FC = () => {
         </Form.Item>
 
         <Form.Item
-          label={t("surname")}
-          name="surname"
+          label={t("lastname")}
+          name="lastname"
           rules={[
             {
               required: true,
-              message: t("surname_missing"),
+              message: t("lastname_missing"),
             },
           ]}
         >

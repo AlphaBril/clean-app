@@ -1,13 +1,14 @@
 import nodemailer = require("nodemailer");
-import SMTPTransport = require("nodemailer/lib/smtp-transport");
 
-export const SMTP_USERNAME = process.env.SMTP_USERNAME || "";
-export const SMTP_SECRET = process.env.SMTP_SECRET || "";
+const SMTP_USERNAME = process.env.SMTP_USERNAME || "";
+const SMTP_SECRET = process.env.SMTP_SECRET || "";
+const MAIL_FROM = process.env.MAIL_FROM || "";
+const MAIL_HOST = process.env.MAIL_HOST || "";
 
 export const ACTIVATION_EMAIL = "ACTIVATION_EMAIL";
 export const CHANGE_PASSWORD_EMAIL = "CHANGE_PASSWORD_EMAIL";
 
-export const sendMail = (
+export const sendMail = async (
   dest: string,
   link: string,
   username: string,
@@ -27,30 +28,29 @@ export const sendMail = (
     },
   });
 
+  try {
+    const verify = await transporter.verify();
+    if (!verify) return false;
+  } catch (e) {
+    return false;
+  }
+
   switch (type) {
     case ACTIVATION_EMAIL: {
       mailOptions = {
-        from: "no-reply@koodibril.com", // change to your liking
+        from: MAIL_FROM,
         to: dest,
         subject: "Activate your account",
-        text:
-          "Welcome to clean-app " +
-          username +
-          "! To activate your account, click on this link : http://localhost:8080/auth/activate/" +
-          link,
+        text: `Welcome to clean-app ${username} ! To activate your account, click on this link : ${MAIL_HOST}/auth/activate/${link}`,
       };
       break;
     }
     case CHANGE_PASSWORD_EMAIL: {
       mailOptions = {
-        from: "no-reply@koodibril.com",
+        from: MAIL_FROM,
         to: dest,
         subject: "Change your password",
-        text:
-          "Hello " +
-          username +
-          "! To change your password, click on this link : http://localhost:8080/auth/password/" +
-          link,
+        text: `Hello ${username} ! To change your password, click on this link : ${MAIL_HOST}/auth/password/${link}`,
       };
       break;
     }
@@ -59,14 +59,10 @@ export const sendMail = (
     }
   }
 
-  transporter.sendMail(
-    mailOptions,
-    function (error: Error | null, info: SMTPTransport.SentMessageInfo) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    }
-  );
+  try {
+    await transporter.sendMail(mailOptions);
+    return true;
+  } catch (e) {
+    return false;
+  }
 };

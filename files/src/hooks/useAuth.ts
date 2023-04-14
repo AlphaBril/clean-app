@@ -5,9 +5,7 @@ const useAuth = () => {
   const pushState = useNavigate();
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if (user) {
-      console.log(user);
-    } else {
+    if (!user) {
       pushState("/auth/login");
     }
   });

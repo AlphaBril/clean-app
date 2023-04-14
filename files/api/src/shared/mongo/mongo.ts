@@ -6,7 +6,7 @@ import {
   MONGO_PASSWORD,
   MONGO_PORT,
   MONGO_PROTOCOL,
-} from "../../constants/mongo";
+} from "@constants/mongo";
 
 const connectionString =
   MONGO_PROTOCOL +

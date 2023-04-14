@@ -4,17 +4,20 @@ import { useTranslation } from "react-i18next";
 import { useAuthentication } from "src/ducks/authentication/actions/authentication";
 
 import { FormData } from "./PasswordRecovery.d";
+import { useNavigation } from "src/ducks/navigation/navigation";
 
 const PasswordRecovery: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const { passwordRecovery } = useAuthentication();
+  const { pushState } = useNavigation();
   const { t } = useTranslation("authentication");
 
   const handlePasswordRecovery = (values: FormData) => {
     setLoading(true);
     passwordRecovery(values.email);
     setLoading(false);
+    pushState("/auth/login");
   };
 
   return (

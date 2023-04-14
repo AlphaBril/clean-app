@@ -4,8 +4,9 @@ import { info, internalError, conflict } from "@shared/utils";
 import { checkPassword } from "../utils/checkPassword";
 import { updateUser } from "../utils/updateUser";
 import { getUser } from "../utils/getUser";
+import { Request, Response } from "express";
 
-export const login = async (req: any, res: any) => {
+export const login = async (req: Request, res: Response) => {
   const session = getSession();
   const { username, password } = req.body;
 

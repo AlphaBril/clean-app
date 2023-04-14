@@ -6,7 +6,7 @@ import {
   NEO4J_PASSWORD,
   NEO4J_PORT,
   NEO4J_PROTOCOL,
-} from "../../constants/neo4j";
+} from "@constants/neo4j";
 
 const neo4jAuth = neo4j.auth.basic(NEO4J_LOGIN, NEO4J_PASSWORD);
 const authOptions = { disableLosslessIntegers: true };

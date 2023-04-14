@@ -54,7 +54,7 @@ const setUser = (
 
 const userRegistrated = (dispatch: AppDispatch, navigate: NavigateFunction) => {
   const message: MessageState = {
-    value: "Registration success, you need to validate your mail",
+    value: "Registration successfull, you need to validate your mail",
     status: "success",
   };
   dispatch(setMessage(message));
@@ -141,15 +141,15 @@ const logout = (dispatch: AppDispatch, navigate: NavigateFunction) => {
 const signup = (
   dispatch: AppDispatch,
   navigate: NavigateFunction,
-  { email, username, password, name, surname }: SignupData
+  { email, username, password, firstname, lastname }: SignupData
 ) =>
   axios
     .post(`${API_URL}${SIGNUP_ENDPOINT}`, {
       email,
       username,
       password,
-      name,
-      surname,
+      firstname,
+      lastname,
     })
     .then(
       () => {
@@ -226,7 +226,7 @@ const updateUsername = (
     }
   );
 
-const updateSurname = (
+const updateLastname = (
   dispatch: AppDispatch,
   token: string | null,
   surname: string
@@ -240,7 +240,7 @@ const updateSurname = (
     }
   );
 
-const updateName = (
+const updateFirstname = (
   dispatch: AppDispatch,
   token: string | null,
   name: string
@@ -288,10 +288,10 @@ export const useAuthentication = () => {
         updateEmail(dispatch, token, email),
       updateUsername: (token: string | null, username: string) =>
         updateUsername(dispatch, token, username),
-      updateSurname: (token: string | null, surname: string) =>
-        updateSurname(dispatch, token, surname),
-      updateName: (token: string | null, name: string) =>
-        updateName(dispatch, token, name),
+      updateLastname: (token: string | null, surname: string) =>
+        updateLastname(dispatch, token, surname),
+      updateFirstname: (token: string | null, name: string) =>
+        updateFirstname(dispatch, token, name),
       login: (username: string, password: string) =>
         login(dispatch, navigate, username, password),
       signup: (data: SignupData) => signup(dispatch, navigate, data),

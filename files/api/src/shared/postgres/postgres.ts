@@ -7,7 +7,7 @@ import {
   POSTGRES_PORT,
   POSTGRES_PROTOCOL,
   POSTGRES_DATABASE,
-} from "../../constants/postgres";
+} from "@constants/postgres";
 
 const connectionString =
   POSTGRES_PROTOCOL +

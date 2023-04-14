@@ -6,7 +6,7 @@ services:
     volumes:
       - ./databases/neo4j:/data
     environment:
-      - NEO4J_AUTH=neo4j/123
+      - NEO4J_AUTH=neo4j/12345678
     ports:
       - 7474:7474
       - 7687:7687

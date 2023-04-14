@@ -5,40 +5,35 @@ import { hashPassword } from "../utils/hashPassword";
 import { ACTIVATION_EMAIL, sendMail } from "@shared/mail/mailer";
 import { createUser } from "../utils/createUser";
 import { countSimilarUsers } from "../utils/countUser";
+import { Request, Response } from "express";
 
-export const signup = async (req: any, res: any) => {
+export const signup = async (req: Request, res: Response) => {
   const session = getSession();
   const { username, email, password, firstname, lastname } = req.body;
-  const pictures = ["", "", "", "", ""];
-  const active = false;
-  const valid = false;
   const token = getToken({ username });
-  const popularity = 1200;
   const userParams = {
     username,
     email,
     password,
     token,
-    pictures,
-    active,
-    valid,
     firstname,
     lastname,
-    popularity,
+    active: false,
   };
   userParams.password = await hashPassword(password);
 
   try {
     const userMatch = await countSimilarUsers(session, { username });
-    if (userMatch[0] > 0)
+    if (userMatch > 0)
       return conflict(res, `Username (${username}) already in use`);
 
     const emailMatch = await countSimilarUsers(session, { email });
-    if (emailMatch[0] > 0)
-      return conflict(res, `Email (${email}) already in use`);
+    if (emailMatch > 0) return conflict(res, `Email (${email}) already in use`);
 
     await createUser(session, userParams);
-    sendMail(email, token, username, ACTIVATION_EMAIL);
+
+    const mail = await sendMail(email, token, username, ACTIVATION_EMAIL);
+    if (!mail) return conflict(res, `Registration email could not be sent`);
 
     info(`New user account, welcome to ${username}`);
     return res.status(200).json({ token });

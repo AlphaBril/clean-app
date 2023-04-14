@@ -1,5 +1,5 @@
 import express from "express";
-import userRoutes from "./modules/user/user";
+import userRoutes from "./modules/neo4j/user/user";
 
 const app = express();
 app.use(express.static("public"));

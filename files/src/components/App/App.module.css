@@ -3,7 +3,7 @@
 }
 
 .title {
-  color: #aaaaaa;
+  color: #aaaaaa !important;
   padding-inline: 50px;
   line-height: 64px;
   margin-top: 10px;

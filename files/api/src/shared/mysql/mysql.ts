@@ -7,7 +7,7 @@ import {
   MYSQL_PORT,
   MYSQL_PROTOCOL,
   MYSQL_DATABASE,
-} from "../../constants/mysql";
+} from "@constants/mysql";
 
 const connectionString =
   MYSQL_PROTOCOL +
