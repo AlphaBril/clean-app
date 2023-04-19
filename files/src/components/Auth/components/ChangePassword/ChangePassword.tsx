@@ -7,10 +7,11 @@ import { useAuthentication } from "src/ducks/authentication/actions/authenticati
 import { useNavigation } from "src/ducks/navigation/navigation";
 
 import { FormData } from "./ChangePassword.d";
+import { useParams } from "react-router-dom";
 
 const ChangePassword: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState("");
+  const { token } = useParams();
 
   const { pushState } = useNavigation();
   const { changePassword } = useAuthentication();
@@ -19,15 +20,14 @@ const ChangePassword: React.FC = () => {
   useEffect(() => {
     const path = window.location.pathname.split("/");
 
-    if (path.length === 4) {
-      setToken(path[3]);
-    } else pushState("/auth");
+    if (path.length !== 4) pushState("/auth/login");
   }, [pushState]);
 
   const handleChangePassword = (values: FormData) => {
     setLoading(true);
-    changePassword(token, values.password);
+    if (token) changePassword(token, values.password);
     setLoading(false);
+    pushState("/auth/login");
   };
 
   const newPasswordRules = [

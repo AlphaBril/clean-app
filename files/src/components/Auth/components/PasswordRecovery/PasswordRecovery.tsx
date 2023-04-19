@@ -13,6 +13,7 @@ const PasswordRecovery: React.FC = () => {
   const { pushState } = useNavigation();
   const { t } = useTranslation("authentication");
 
+  const goToLogin = () => pushState("/auth/login");
   const handlePasswordRecovery = (values: FormData) => {
     setLoading(true);
     passwordRecovery(values.email);
@@ -39,6 +40,12 @@ const PasswordRecovery: React.FC = () => {
           ]}
         >
           <Input />
+        </Form.Item>
+
+        <Form.Item>
+          <Button type="text" onClick={goToLogin}>
+            {t("go_to_login")}
+          </Button>
         </Form.Item>
 
         <Form.Item>

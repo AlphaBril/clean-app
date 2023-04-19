@@ -12,8 +12,11 @@ const Auth: React.FC = () => {
     <Routes>
       <Route path="signup" element={<SignupComponent />}></Route>
       <Route path="login" element={<LoginComponent />}></Route>
-      <Route path="activate" element={<ActivateComponent />}></Route>
-      <Route path="password" element={<ChangePasswordComponent />}></Route>
+      <Route path="activate/:token" element={<ActivateComponent />}></Route>
+      <Route
+        path="password/:token"
+        element={<ChangePasswordComponent />}
+      ></Route>
       <Route path="recovery" element={<PasswordRecoveryComponent />}></Route>
     </Routes>
   );
