@@ -1,0 +1,28 @@
+import { check, validationResult } from "express-validator";
+import { Request, Response, NextFunction } from "express";
+import { format } from "@shared/utils";
+
+export const validateLogin = [
+  check("username")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("User name can not be empty!")
+    .bail(),
+  check("password")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Password can not be empty!")
+    .bail()
+    .isLength({ min: 8 })
+    .withMessage("Minimum 8 characters required!")
+    .bail(),
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return format(res, "Data is incorrect");
+    return next();
+  },
+];

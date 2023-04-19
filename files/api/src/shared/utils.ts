@@ -37,6 +37,8 @@ export const unauthorized = (res: response, message: string) =>
   resWarn(res, 401, message);
 export const conflict = (res: response, message: string) =>
   resWarn(res, 409, message);
+export const format = (res: response, message: string) =>
+  resWarn(res, 422, message);
 export const badRequest = (res: response, message: string) =>
   resWarn(res, 400, message);
 export const internalError = (res: response) => (e: unknown) =>

@@ -5,6 +5,7 @@ import path from "path";
 
 const dependencies = [
     'express',
+    'express-validator',
     'bcrypt',
     'dotenv',
     'jsonwebtoken',
