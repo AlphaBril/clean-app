@@ -3,10 +3,10 @@ import { User } from "./user.d";
 import { generateParams } from "@shared/utils";
 
 export const createUser = async (session: Session, userData: User) => {
-  await session.run(
-    "CREATE (n: `user` { " +
-      generateParams(Object.keys(userData), "n", false) +
-      "})",
-    userData
-  );
+  const cypher = `CREATE (n: user { ${generateParams(
+    Object.keys(userData),
+    "n",
+    false
+  )} })`;
+  await session.run(cypher, userData);
 };

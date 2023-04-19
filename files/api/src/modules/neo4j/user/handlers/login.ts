@@ -1,7 +1,7 @@
 import { getSession } from "@shared/neo4j/neo4j";
 import { getToken } from "@shared/jwt/getToken";
 import { info, internalError, conflict } from "@shared/utils";
-import { checkPassword } from "../utils/checkPassword";
+import { checkPassword } from "@shared/bcrypt/checkPassword";
 import { updateUser } from "../utils/updateUser";
 import { getUser } from "../utils/getUser";
 import { Request, Response } from "express";
@@ -12,16 +12,16 @@ export const login = async (req: Request, res: Response) => {
 
   try {
     const userInfo = await getUser(session, { username });
-    if (!userInfo[0])
+    if (!userInfo)
       return conflict(res, `Credentials for (${username}) are incorrect`);
-    const matchingPassword = userInfo[0].properties.Password;
+    const matchingPassword = userInfo.properties.Password;
     if (!matchingPassword)
       return conflict(res, `Credentials for (${username}) are incorrect`);
     const passwordMatch = await checkPassword(password, matchingPassword);
     if (!passwordMatch)
       return conflict(res, `Credentials for (${username}) are incorrect`);
 
-    const activated = userInfo[0].properties.Active;
+    const activated = userInfo.properties.Active;
     if (activated === false)
       return conflict(
         res,
@@ -32,9 +32,9 @@ export const login = async (req: Request, res: Response) => {
     const updated = await updateUser(
       session,
       { token },
-      userInfo[0].properties.Token
+      userInfo.properties.Token
     );
-    if (!updated[0] || token !== updated[0].properties.Token)
+    if (!updated || token !== updated.properties.Token)
       return conflict(res, `Error when generating new token for (${username})`);
 
     info(`User '${username}' logged in`);

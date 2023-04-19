@@ -2,19 +2,20 @@ import { getSession } from "@shared/neo4j/neo4j";
 import { conflict, info, internalError } from "@shared/utils";
 import { CHANGE_PASSWORD_EMAIL, sendMail } from "@shared/mail/mailer";
 import { getUser } from "../utils/getUser";
+import { Request, Response } from "express";
 
-export const recoverPassword = async (req: any, res: any) => {
+export const recoverPassword = async (req: Request, res: Response) => {
   const session = getSession();
   const email = req.body.email;
 
   try {
     const userInfo = await getUser(session, { email });
-    if (!userInfo[0]) return conflict(res, `No user with this email`);
+    if (!userInfo) return conflict(res, `No user with this email`);
 
     sendMail(
       email,
-      userInfo[0].properties.Token,
-      userInfo[0].properties.Username,
+      userInfo.properties.Token,
+      userInfo.properties.Username,
       CHANGE_PASSWORD_EMAIL
     );
 

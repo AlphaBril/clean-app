@@ -7,14 +7,11 @@ export const updateUser = async (
   userData: User,
   token: string
 ) => {
-  const result = await session.run(
-    "MATCH (n: `user`) " +
-      "WHERE n.Token = $oldToken " +
-      "SET " +
-      generateParams(Object.keys(userData), "n", true) +
-      " " +
-      "RETURN n",
-    { oldToken: token, ...userData }
-  );
-  return result.records.map((p: any) => p.get(0));
+  const cypher = `MATCH (n: user) WHERE n.Token = $oldToken SET ${generateParams(
+    Object.keys(userData),
+    "n",
+    true
+  )} RETURN n`;
+  const result = await session.run(cypher, { oldToken: token, ...userData });
+  return result.records.map((p) => p.get("n"))[0];
 };
