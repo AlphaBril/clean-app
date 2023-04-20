@@ -17,7 +17,7 @@ export const changePassword = async (req: Request, res: Response) => {
       return conflict(res, `Your token is invalid`);
     } else {
       const username = userInfo.properties.Username;
-      token = getToken({ username });
+      token = getToken(userInfo.identity, username, false);
       const updated = await updateUser(
         session,
         { password, token },

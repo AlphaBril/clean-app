@@ -31,6 +31,10 @@ export const EMAIL_SENT: MessageState = {
   value: "An email has been sent",
   status: "success",
 };
+export const TOKEN_EXPIRED: MessageState = {
+  value: "Your session is expired, please login",
+  status: "error",
+};
 
 export const useMessage = () =>
   useAppSelector((state: RootState) => state.message);

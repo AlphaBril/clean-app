@@ -28,7 +28,7 @@ export const login = async (req: Request, res: Response) => {
         `You must activate your account, check your emails !`
       );
 
-    const token = getToken({ username });
+    const token = getToken(userInfo.identity, username, false);
     const updated = await updateUser(
       session,
       { token },

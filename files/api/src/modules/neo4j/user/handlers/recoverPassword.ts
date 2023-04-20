@@ -11,13 +11,14 @@ export const recoverPassword = async (req: Request, res: Response) => {
   try {
     const userInfo = await getUser(session, { email });
     if (!userInfo) return conflict(res, `No user with this email`);
-
-    sendMail(
+    const mail = sendMail(
+      req.headers.origin ?? "",
       email,
       userInfo.properties.Token,
       userInfo.properties.Username,
       CHANGE_PASSWORD_EMAIL
     );
+    if (!mail) return conflict(res, `Registration email could not be sent`);
 
     info(`Email send !`);
     return res.status(200).json({ userInfo });

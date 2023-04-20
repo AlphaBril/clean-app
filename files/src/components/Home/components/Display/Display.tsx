@@ -3,22 +3,28 @@ import { useNavigation } from "src/ducks/navigation/navigation";
 import { Col, Row, Button } from "antd";
 import { JwtPayload } from "jsonwebtoken";
 import jwt from "jwt-decode";
+import useAuth from "src/hooks/useAuth";
 
 const Display: React.FC<{ message: string }> = (props) => {
   const [username, setUsername] = useState("");
-  // const [timeleft, setTimeleft] = useState("");
-  const user = localStorage.getItem("user");
+  const [timeleft, setTimeleft] = useState("");
+  const [issued, setIssued] = useState("");
+  const user = sessionStorage.getItem("user");
   const { pushState } = useNavigation();
 
+  useAuth();
+
   const disconnect = () => {
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
     pushState("/auth/login");
   };
   useMemo(() => {
     if (user) {
       const decoded: JwtPayload = jwt(user);
-      // setTimeleft(new Date(Date.now() + decoded.exp!).toDateString());
-      setUsername(decoded.username);
+      if (decoded.exp)
+        setTimeleft(new Date(decoded.exp * 1000).toLocaleString());
+      if (decoded.iat) setIssued(new Date(decoded.iat * 1000).toLocaleString());
+      if (decoded.usr) setUsername(decoded.usr);
     }
   }, [user]);
   return (
@@ -26,7 +32,8 @@ const Display: React.FC<{ message: string }> = (props) => {
       <Col>
         {props.message ? props.message : null} {username}
       </Col>
-      {/* <Col>Your token expire in {timeleft}</Col> */}
+      <Col>Your token was issued {issued}</Col>
+      <Col>Your token expire in {timeleft}</Col>
       <Col>
         <Button onClick={() => disconnect()}>Disconnect</Button>
       </Col>

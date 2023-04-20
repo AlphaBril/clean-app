@@ -2,13 +2,14 @@ import nodemailer = require("nodemailer");
 
 const SMTP_USERNAME = process.env.SMTP_USERNAME || "";
 const SMTP_SECRET = process.env.SMTP_SECRET || "";
+const SMTP_HOST = process.env.SMTP_HOST || "";
 const MAIL_FROM = process.env.MAIL_FROM || "";
-const MAIL_HOST = process.env.MAIL_HOST || "";
 
 export const ACTIVATION_EMAIL = "ACTIVATION_EMAIL";
 export const CHANGE_PASSWORD_EMAIL = "CHANGE_PASSWORD_EMAIL";
 
 export const sendMail = async (
+  host: string,
   dest: string,
   link: string,
   username: string,
@@ -16,7 +17,7 @@ export const sendMail = async (
 ) => {
   let mailOptions;
   const transporter = nodemailer.createTransport({
-    host: "ssl0.ovh.net",
+    host: SMTP_HOST,
     port: 587,
     secure: false,
     auth: {
@@ -41,7 +42,7 @@ export const sendMail = async (
         from: MAIL_FROM,
         to: dest,
         subject: "Activate your account",
-        text: `Welcome to clean-app ${username} ! To activate your account, click on this link : ${MAIL_HOST}/auth/activate/${link}`,
+        text: `Welcome to clean-app ${username} ! To activate your account, click on this link : ${host}/auth/activate/${link} NB: this link is valid 15min.`,
       };
       break;
     }
@@ -50,7 +51,7 @@ export const sendMail = async (
         from: MAIL_FROM,
         to: dest,
         subject: "Change your password",
-        text: `Hello ${username} ! To change your password, click on this link : ${MAIL_HOST}/auth/password/${link}`,
+        text: `Hello ${username} ! To change your password, click on this link : ${host}/auth/password/${link} NB: this link is valid 15min.`,
       };
       break;
     }

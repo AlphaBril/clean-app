@@ -51,7 +51,7 @@ const setUser = (
   navigate: NavigateFunction
 ) => {
   const token = res.data.token;
-  localStorage.setItem("user", token);
+  sessionStorage.setItem("user", token);
   const user: AuthenticationState = { isAuthenticated: true, user: token };
   dispatch(loginSuccess(user));
   socket.emit("order:update", token);
@@ -75,7 +75,7 @@ const login = (
 
 const logout = (dispatch: AppDispatch, navigate: NavigateFunction) => {
   dispatch(loginOut());
-  localStorage.removeItem("user");
+  sessionStorage.removeItem("user");
   navigate("/");
 };
 
@@ -153,7 +153,7 @@ const updatePassword = (dispatch: AppDispatch, password: string) =>
       { password },
       {
         headers: {
-          Authorization: localStorage.getItem("user"),
+          Authorization: sessionStorage.getItem("user"),
         },
       }
     )
@@ -173,7 +173,7 @@ const updateUser = (dispatch: AppDispatch, user: UserData) =>
       { userData: user },
       {
         headers: {
-          Authorization: localStorage.getItem("user"),
+          Authorization: sessionStorage.getItem("user"),
         },
       }
     )

@@ -10,7 +10,7 @@ import { Request, Response } from "express";
 export const signup = async (req: Request, res: Response) => {
   const session = getSession();
   const { username, email, password, firstname, lastname } = req.body;
-  const token = getToken({ username });
+  const token = getToken(-1, username, false);
   const userParams = {
     username,
     email,
@@ -32,7 +32,13 @@ export const signup = async (req: Request, res: Response) => {
 
     await createUser(session, userParams);
 
-    const mail = await sendMail(email, token, username, ACTIVATION_EMAIL);
+    const mail = await sendMail(
+      req.headers.origin ?? "",
+      email,
+      token,
+      username,
+      ACTIVATION_EMAIL
+    );
     if (!mail) return conflict(res, `Registration email could not be sent`);
 
     info(`New user account, welcome to ${username}`);
