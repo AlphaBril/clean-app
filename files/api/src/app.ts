@@ -1,21 +1,23 @@
 import express from "express";
 import userRoutes from "./modules/neo4j/user/user";
+import authRoutes from "./modules/neo4j/auth/auth";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
 const app = express();
 app.use(express.static("public"));
-const allowCrossDomain = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "*");
-  next();
+app.use(cookieParser());
+
+const corsOptions = {
+  origin: ["http://localhost:3000"],
+  credentials: true,
+  exposedHeaders: ["set-cookie"],
 };
 
-app.use(allowCrossDomain);
+app.use(cors(corsOptions));
 
 app.use(express.json({ limit: "1mb" }));
-app.use("/api/auth", userRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
 
 export default app;

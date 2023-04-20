@@ -1,10 +1,12 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import authentication from "src/ducks/authentication/authenticationSlice";
+import auth from "src/ducks/auth/authSlice";
+import user from "src/ducks/user/userSlice";
 import message from "src/ducks/message/messageSlice";
 
 export const store = configureStore({
   reducer: {
-    authentication: authentication,
+    auth: auth,
+    user: user,
     message: message,
   },
 });

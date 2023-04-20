@@ -1,5 +1,4 @@
 import { getSession } from "@shared/neo4j/neo4j";
-import { getToken } from "@shared/jwt/getToken";
 import { info, internalError, conflict } from "@shared/utils";
 import { hashPassword } from "@shared/bcrypt/hashPassword";
 import { ACTIVATION_EMAIL, sendMail } from "@shared/mail/mailer";
@@ -10,7 +9,7 @@ import { Request, Response } from "express";
 export const signup = async (req: Request, res: Response) => {
   const session = getSession();
   const { username, email, password, firstname, lastname } = req.body;
-  const token = getToken(-1, username, false);
+  const token = "test";
   const userParams = {
     username,
     email,

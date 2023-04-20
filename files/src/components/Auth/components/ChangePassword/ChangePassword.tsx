@@ -3,18 +3,18 @@ import { useTranslation } from "react-i18next";
 
 import { Row, Form, Input, Spin, Button } from "antd";
 
-import { useAuthentication } from "src/ducks/authentication/actions/authentication";
 import { useNavigation } from "src/ducks/navigation/navigation";
 
 import { FormData } from "./ChangePassword.d";
 import { useParams } from "react-router-dom";
+import { useUser } from "src/ducks/user/actions/user";
 
 const ChangePassword: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const { token } = useParams();
 
   const { pushState } = useNavigation();
-  const { changePassword } = useAuthentication();
+  const { changePassword } = useUser();
   const { t } = useTranslation("authentication");
 
   useEffect(() => {

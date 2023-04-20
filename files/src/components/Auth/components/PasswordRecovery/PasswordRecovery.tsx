@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Row, Form, Input, Spin, Button } from "antd";
 import { useTranslation } from "react-i18next";
-import { useAuthentication } from "src/ducks/authentication/actions/authentication";
 
 import { FormData } from "./PasswordRecovery.d";
 import { useNavigation } from "src/ducks/navigation/navigation";
+import { useUser } from "src/ducks/user/actions/user";
 
 const PasswordRecovery: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
-  const { passwordRecovery } = useAuthentication();
+  const { passwordRecovery } = useUser();
   const { pushState } = useNavigation();
   const { t } = useTranslation("authentication");
 

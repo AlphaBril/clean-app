@@ -14,7 +14,9 @@ const dependencies = [
     'mysql',
     'mongodb',
     'pg',
-    'neo4j-driver'
+    'neo4j-driver',
+    'cors',
+    'cookie-parser'
 ];
 
 const devDependencies = [
@@ -33,7 +35,8 @@ const devDependencies = [
     '@types/mysql',
     '@types/nodemailer',
     '@types/pg',
-    'tsconfig-paths'
+    'tsconfig-paths',
+    '@types/cookie-parser'
 ]
 
 const generateBack = (folder, database) => {

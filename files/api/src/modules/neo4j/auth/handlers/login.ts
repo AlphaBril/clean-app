@@ -1,10 +1,9 @@
 import { getSession } from "@shared/neo4j/neo4j";
-import { getToken } from "@shared/jwt/getToken";
 import { info, internalError, conflict } from "@shared/utils";
 import { checkPassword } from "@shared/bcrypt/checkPassword";
-import { updateUser } from "../utils/updateUser";
 import { getUser } from "../utils/getUser";
 import { Request, Response } from "express";
+import { getAccessToken, getRefreshToken } from "@shared/jwt/jwt";
 
 export const login = async (req: Request, res: Response) => {
   const session = getSession();
@@ -21,24 +20,33 @@ export const login = async (req: Request, res: Response) => {
     if (!passwordMatch)
       return conflict(res, `Credentials for (${username}) are incorrect`);
 
-    const activated = userInfo.properties.Active;
-    if (activated === false)
+    if (!userInfo.properties.Active)
       return conflict(
         res,
         `You must activate your account, check your emails !`
       );
 
-    const token = getToken(userInfo.identity, username, false);
-    const updated = await updateUser(
-      session,
-      { token },
-      userInfo.properties.Token
+    const accessToken = getAccessToken(
+      `${req.protocol}://${req.get("host")}`,
+      userInfo.properties.Username,
+      false
     );
-    if (!updated || token !== updated.properties.Token)
-      return conflict(res, `Error when generating new token for (${username})`);
+
+    const refreshToken = getRefreshToken(
+      `${req.protocol}://${req.get("host")}`,
+      userInfo.properties.Username,
+      false
+    );
+
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     info(`User '${username}' logged in`);
-    return res.status(200).json({ token });
+    return res.status(200).json({ accessToken });
   } catch (e) {
     return internalError(res)(e);
   } finally {

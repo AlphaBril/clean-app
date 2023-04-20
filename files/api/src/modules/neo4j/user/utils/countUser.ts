@@ -1,6 +1,6 @@
 import { Session } from "neo4j-driver";
 import { generateParams } from "@shared/utils";
-import { User } from "./user";
+import { User } from "./user.d";
 
 export const countSimilarUsers = async (session: Session, user: User) => {
   const cypher = `MATCH (n: user) WHERE ${generateParams(
