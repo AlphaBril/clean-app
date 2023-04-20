@@ -8,7 +8,7 @@ import { Request, Response } from "express";
 
 export const changePassword = async (req: Request, res: Response) => {
   const session = getSession();
-  let token = req.body.token;
+  let token = req.get("Authorization");
   const password = await hashPassword(req.body.password);
 
   try {

@@ -1,16 +1,16 @@
-import { check, validationResult } from "express-validator";
+import { header, body, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { format } from "@shared/utils";
 
 export const validateChange = [
-  check("token")
+  header("token")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Token can not be empty!")
     .bail(),
-  check("password")
+  body("password")
     .trim()
     .escape()
     .not()

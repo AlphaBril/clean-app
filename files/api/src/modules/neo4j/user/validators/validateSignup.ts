@@ -1,23 +1,23 @@
-import { check, validationResult } from "express-validator";
+import { body, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { format } from "@shared/utils";
 
 export const validateSignup = [
-  check("username")
+  body("username")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("User name can not be empty!")
     .bail(),
-  check("email")
+  body("email")
     .trim()
     .normalizeEmail()
     .not()
     .isEmpty()
     .withMessage("Invalid email address!")
     .bail(),
-  check("password")
+  body("password")
     .trim()
     .escape()
     .not()
@@ -27,14 +27,14 @@ export const validateSignup = [
     .isLength({ min: 8 })
     .withMessage("Minimum 8 characters required!")
     .bail(),
-  check("firstname")
+  body("firstname")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("User name can not be empty!")
     .bail(),
-  check("lastname")
+  body("lastname")
     .trim()
     .escape()
     .not()

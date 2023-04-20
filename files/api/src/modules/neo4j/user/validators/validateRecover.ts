@@ -1,9 +1,9 @@
-import { check, validationResult } from "express-validator";
+import { body, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { format } from "@shared/utils";
 
 export const validateRecover = [
-  check("email")
+  body("email")
     .trim()
     .normalizeEmail()
     .not()

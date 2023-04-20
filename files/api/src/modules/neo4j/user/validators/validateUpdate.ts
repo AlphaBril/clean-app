@@ -1,42 +1,42 @@
-import { check, validationResult } from "express-validator";
+import { header, body, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { format } from "@shared/utils";
 
 export const validateUpdate = [
-  check("username")
+  header("token")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Token can not be empty!")
+    .bail(),
+  body("username")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("User name can not be empty!")
     .bail(),
-  check("email")
+  body("email")
     .trim()
     .normalizeEmail()
     .not()
     .isEmpty()
     .withMessage("Invalid email address!")
     .bail(),
-  check("firstname")
+  body("firstname")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("User name can not be empty!")
     .bail(),
-  check("lastname")
+  body("lastname")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("User name can not be empty!")
-    .bail(),
-  check("token")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage("Token can not be empty!")
     .bail(),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);

@@ -7,7 +7,7 @@ import { Request, Response } from "express";
 
 export const activateUser = async (req: Request, res: Response) => {
   const session = getSession();
-  let token = req.body.token;
+  let token = req.get("Authorization");
 
   try {
     const userInfo = await getUser(session, { token });

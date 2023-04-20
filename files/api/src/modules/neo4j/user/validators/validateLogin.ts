@@ -1,16 +1,16 @@
-import { check, validationResult } from "express-validator";
+import { body, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { format } from "@shared/utils";
 
 export const validateLogin = [
-  check("username")
+  body("username")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("User name can not be empty!")
     .bail(),
-  check("password")
+  body("password")
     .trim()
     .escape()
     .not()

@@ -104,11 +104,15 @@ const signup = (
 
 const activateUser = (dispatch: AppDispatch, token: string) =>
   axios
-    .post(`${API_URL}${ACTIVATE_ENDPOINT}`, {
-      headers: {
-        Authorization: token,
-      },
-    })
+    .post(
+      `${API_URL}${ACTIVATE_ENDPOINT}`,
+      {},
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
     .then(
       () => {
         dispatch(setMessage(USER_ACTIVATED));
@@ -164,11 +168,15 @@ const updatePassword = (dispatch: AppDispatch, password: string) =>
 
 const updateUser = (dispatch: AppDispatch, user: UserData) =>
   axios
-    .post(`${API_URL}${UPDATE_ENDPOINT}`, user, {
-      headers: {
-        Authorization: localStorage.getItem("user"),
-      },
-    })
+    .post(
+      `${API_URL}${UPDATE_ENDPOINT}`,
+      { userData: user },
+      {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      }
+    )
     .then(
       () => {
         dispatch(setMessage(USER_UPDATED));

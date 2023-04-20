@@ -1,9 +1,9 @@
-import { check, validationResult } from "express-validator";
+import { header, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { format } from "@shared/utils";
 
 export const validateActivate = [
-  check("token")
+  header("Authorization")
     .trim()
     .escape()
     .not()
