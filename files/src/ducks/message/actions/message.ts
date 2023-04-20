@@ -7,6 +7,31 @@ import {
   MessageState,
 } from "src/ducks/message/messageSlice";
 
+export const USER_REGISTRATED: MessageState = {
+  value: "Registration successfull, you need to validate your mail",
+  status: "success",
+};
+export const USER_ACTIVATED: MessageState = {
+  value: "Your account is now activated, please log in",
+  status: "warning",
+};
+export const PASSWORD_CHANGED: MessageState = {
+  value: "Your password was updated, please log in",
+  status: "warning",
+};
+export const USER_UPDATED: MessageState = {
+  value: "User info updated",
+  status: "warning",
+};
+export const PASSWORD_UPDATED: MessageState = {
+  value: "Your password was updated",
+  status: "warning",
+};
+export const EMAIL_SENT: MessageState = {
+  value: "An email has been sent",
+  status: "success",
+};
+
 export const useMessage = () =>
   useAppSelector((state: RootState) => state.message);
 

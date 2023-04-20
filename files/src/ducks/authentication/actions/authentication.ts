@@ -13,6 +13,15 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { SignupData } from "src/components/Auth/components/Signup/Signup.d";
 import { socket } from "src/hooks/useSocket";
 import { AppDispatch } from "src/store/configure";
+import { UserData } from "./user.d";
+import {
+  EMAIL_SENT,
+  PASSWORD_CHANGED,
+  PASSWORD_UPDATED,
+  USER_ACTIVATED,
+  USER_REGISTRATED,
+  USER_UPDATED,
+} from "src/ducks/message/actions/message";
 
 const PORT = 3001;
 const ADDRESS = "localhost";
@@ -22,10 +31,7 @@ const LOGIN_ENDPOINT = "/api/auth/login";
 const SIGNUP_ENDPOINT = "/api/auth/signup";
 const ACTIVATE_ENDPOINT = "/api/auth/activate";
 const CHANGE_PASSWORD_ENDPOINT = "/api/auth/password";
-const UPDATE_EMAIL_ENDPOINT = "/api/auth/email";
-const UPDATE_USERNAME_ENDPOINT = "/api/auth/username";
-const UPDATE_SURNAME_ENDPOINT = "/api/auth/surname";
-const UPDATE_NAME_ENDPOINT = "/api/auth/name";
+const UPDATE_ENDPOINT = "/api/auth/update";
 const RECOVER_PASSWORD_ENDPOINT = "/api/auth/recovery";
 
 const handleError = (dispatch: AppDispatch, error: AxiosError) => {
@@ -50,71 +56,6 @@ const setUser = (
   dispatch(loginSuccess(user));
   socket.emit("order:update", token);
   navigate("/");
-};
-
-const userRegistrated = (dispatch: AppDispatch, navigate: NavigateFunction) => {
-  const message: MessageState = {
-    value: "Registration successfull, you need to validate your mail",
-    status: "success",
-  };
-  dispatch(setMessage(message));
-  navigate("/auth/login");
-};
-
-const userActivated = (dispatch: AppDispatch) => {
-  const message: MessageState = {
-    value: "Your account is now activated, please log in",
-    status: "warning",
-  };
-  dispatch(setMessage(message));
-};
-
-const passwordChanged = (dispatch: AppDispatch) => {
-  const message: MessageState = {
-    value: "Your password was updated, please log in",
-    status: "warning",
-  };
-  dispatch(setMessage(message));
-};
-
-const emailChanged = (dispatch: AppDispatch) => {
-  const message: MessageState = {
-    value: "Your email was updated",
-    status: "warning",
-  };
-  dispatch(setMessage(message));
-};
-
-const usernameChanged = (dispatch: AppDispatch) => {
-  const message: MessageState = {
-    value: "Your username was updated",
-    status: "warning",
-  };
-  dispatch(setMessage(message));
-};
-
-const surnameChanged = (dispatch: AppDispatch) => {
-  const message: MessageState = {
-    value: "Your surname was updated",
-    status: "warning",
-  };
-  dispatch(setMessage(message));
-};
-
-const nameChanged = (dispatch: AppDispatch) => {
-  const message: MessageState = {
-    value: "Your name was updated",
-    status: "warning",
-  };
-  dispatch(setMessage(message));
-};
-
-const passswordChanged = (dispatch: AppDispatch) => {
-  const message: MessageState = {
-    value: "Your password was updated",
-    status: "warning",
-  };
-  dispatch(setMessage(message));
 };
 
 const login = (
@@ -153,7 +94,8 @@ const signup = (
     })
     .then(
       () => {
-        userRegistrated(dispatch, navigate);
+        dispatch(setMessage(USER_REGISTRATED));
+        navigate("/auth/login");
       },
       (error) => {
         handleError(dispatch, error);
@@ -161,111 +103,85 @@ const signup = (
     );
 
 const activateUser = (dispatch: AppDispatch, token: string) =>
-  axios.post(`${API_URL}${ACTIVATE_ENDPOINT}`, { token }).then(
-    () => {
-      userActivated(dispatch);
-    },
-    (error) => {
-      handleError(dispatch, error);
-    }
-  );
+  axios
+    .post(`${API_URL}${ACTIVATE_ENDPOINT}`, {
+      headers: {
+        Authorization: token,
+      },
+    })
+    .then(
+      () => {
+        dispatch(setMessage(USER_ACTIVATED));
+      },
+      (error) => {
+        handleError(dispatch, error);
+      }
+    );
 
 const changePassword = (
   dispatch: AppDispatch,
   token: string,
   password: string
 ) =>
-  axios.post(`${API_URL}${CHANGE_PASSWORD_ENDPOINT}`, { token, password }).then(
-    () => {
-      passwordChanged(dispatch);
-    },
-    (error) => {
-      handleError(dispatch, error);
-    }
-  );
+  axios
+    .post(
+      `${API_URL}${CHANGE_PASSWORD_ENDPOINT}`,
+      { password },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
+    .then(
+      () => {
+        dispatch(setMessage(PASSWORD_CHANGED));
+      },
+      (error) => {
+        handleError(dispatch, error);
+      }
+    );
 
-const updatePassword = (
-  dispatch: AppDispatch,
-  token: string | null,
-  password: string
-) =>
-  axios.post(`${API_URL}${CHANGE_PASSWORD_ENDPOINT}`, { token, password }).then(
-    () => {
-      passswordChanged(dispatch);
-    },
-    (error) => {
-      handleError(dispatch, error);
-    }
-  );
+const updatePassword = (dispatch: AppDispatch, password: string) =>
+  axios
+    .post(
+      `${API_URL}${CHANGE_PASSWORD_ENDPOINT}`,
+      { password },
+      {
+        headers: {
+          Authorization: localStorage.getItem("user"),
+        },
+      }
+    )
+    .then(
+      () => {
+        dispatch(setMessage(PASSWORD_UPDATED));
+      },
+      (error) => {
+        handleError(dispatch, error);
+      }
+    );
 
-const updateEmail = (
-  dispatch: AppDispatch,
-  token: string | null,
-  email: string
-) =>
-  axios.post(`${API_URL}${UPDATE_EMAIL_ENDPOINT}`, { token, email }).then(
-    () => {
-      emailChanged(dispatch);
-    },
-    (error) => {
-      handleError(dispatch, error);
-    }
-  );
-
-const updateUsername = (
-  dispatch: AppDispatch,
-  token: string | null,
-  username: string
-) =>
-  axios.post(`${API_URL}${UPDATE_USERNAME_ENDPOINT}`, { token, username }).then(
-    () => {
-      usernameChanged(dispatch);
-    },
-    (error) => {
-      handleError(dispatch, error);
-    }
-  );
-
-const updateLastname = (
-  dispatch: AppDispatch,
-  token: string | null,
-  surname: string
-) =>
-  axios.post(`${API_URL}${UPDATE_SURNAME_ENDPOINT}`, { token, surname }).then(
-    () => {
-      surnameChanged(dispatch);
-    },
-    (error) => {
-      handleError(dispatch, error);
-    }
-  );
-
-const updateFirstname = (
-  dispatch: AppDispatch,
-  token: string | null,
-  name: string
-) =>
-  axios.post(`${API_URL}${UPDATE_NAME_ENDPOINT}`, { token, name }).then(
-    () => {
-      nameChanged(dispatch);
-    },
-    (error) => {
-      handleError(dispatch, error);
-    }
-  );
-
-const emailSent = (dispatch: AppDispatch) => {
-  const message: MessageState = {
-    value: "An email has been sent",
-    status: "success",
-  };
-  dispatch(setMessage(message));
-};
+const updateUser = (dispatch: AppDispatch, user: UserData) =>
+  axios
+    .post(`${API_URL}${UPDATE_ENDPOINT}`, user, {
+      headers: {
+        Authorization: localStorage.getItem("user"),
+      },
+    })
+    .then(
+      () => {
+        dispatch(setMessage(USER_UPDATED));
+      },
+      (error) => {
+        handleError(dispatch, error);
+      }
+    );
 
 const passwordRecovery = (dispatch: AppDispatch, email: string) =>
   axios.post(`${API_URL}${RECOVER_PASSWORD_ENDPOINT}`, { email }).then(
     () => {
-      emailSent(dispatch);
+      dispatch(setMessage(EMAIL_SENT));
     },
     (error) => {
       handleError(dispatch, error);
@@ -282,16 +198,8 @@ export const useAuthentication = () => {
       passwordRecovery: (email: string) => passwordRecovery(dispatch, email),
       changePassword: (token: string, password: string) =>
         changePassword(dispatch, token, password),
-      updatePassword: (token: string | null, password: string) =>
-        updatePassword(dispatch, token, password),
-      updateEmail: (token: string | null, email: string) =>
-        updateEmail(dispatch, token, email),
-      updateUsername: (token: string | null, username: string) =>
-        updateUsername(dispatch, token, username),
-      updateLastname: (token: string | null, surname: string) =>
-        updateLastname(dispatch, token, surname),
-      updateFirstname: (token: string | null, name: string) =>
-        updateFirstname(dispatch, token, name),
+      updatePassword: (password: string) => updatePassword(dispatch, password),
+      updateUser: (user: UserData) => updateUser(dispatch, user),
       login: (username: string, password: string) =>
         login(dispatch, navigate, username, password),
       signup: (data: SignupData) => signup(dispatch, navigate, data),
