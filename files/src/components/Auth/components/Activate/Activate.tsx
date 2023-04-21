@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigation } from "src/ducks/navigation/navigation";
-import { useUser } from "src/ducks/user/actions/user";
+import { useUserActions } from "src/ducks/user/actions/user";
 
 const Activate: React.FC = () => {
-  const { activateUser } = useUser();
+  const { activateUser } = useUserActions();
   const { pushState } = useNavigation();
   const { token } = useParams();
 

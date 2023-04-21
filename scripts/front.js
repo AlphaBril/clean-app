@@ -9,9 +9,11 @@ const dependencies = [
     'react-i18next',
     'i18next-browser-languagedetector',
     'react-router-dom',
-    'jsonwebtoken',
     'socket.io-client',
-    'jwt-decode'
+    '@fortawesome/fontawesome-svg-core',
+    '@fortawesome/free-solid-svg-icons',
+    '@fortawesome/free-regular-svg-icons',
+    '@fortawesome/react-fontawesome@latest'
 ];
 
 const devDependencies = [

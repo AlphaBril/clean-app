@@ -2,7 +2,7 @@ import { body, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { format } from "@shared/utils";
 
-export const validateSignup = [
+export const validateSignup = () => [
   body("username")
     .trim()
     .escape()

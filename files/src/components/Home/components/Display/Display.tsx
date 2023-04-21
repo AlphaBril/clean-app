@@ -1,17 +1,31 @@
-import React from "react";
-import { Col, Row, Button } from "antd";
-import { useAuthActions } from "src/ducks/auth/actions/auth";
+import React, { useEffect, useMemo } from "react";
+import { Descriptions } from "antd";
+import { useUser, useUserActions } from "src/ducks/user/actions/user";
 
-const Display: React.FC<{ message: string }> = (props) => {
-  const { logout } = useAuthActions();
+const Display: React.FC = () => {
+  const { getUserInfo } = useUserActions();
+  const user = useUser();
 
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  const userInfo = useMemo(() => {
+    return user;
+  }, [user]);
   return (
-    <Row>
-      <Col>{props.message ? props.message : null}</Col>
-      <Col>
-        <Button onClick={() => logout()}>Disconnect</Button>
-      </Col>
-    </Row>
+    <Descriptions title="User Info">
+      <Descriptions.Item label="UserName">
+        {userInfo.username}
+      </Descriptions.Item>
+      <Descriptions.Item label="Firstname">
+        {userInfo.firstname}
+      </Descriptions.Item>
+      <Descriptions.Item label="LastName">
+        {userInfo.lastname}
+      </Descriptions.Item>
+      <Descriptions.Item label="Email">{userInfo.email}</Descriptions.Item>
+    </Descriptions>
   );
 };
 

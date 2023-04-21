@@ -2,7 +2,7 @@ import { header, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { format } from "@shared/utils";
 
-export const validateActivate = [
+export const validateActivate = () => [
   header("Authorization")
     .trim()
     .escape()

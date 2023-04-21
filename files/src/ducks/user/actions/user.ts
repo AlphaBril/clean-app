@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "src/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "src/hooks/hooks";
 import { MessageState, setMessage } from "src/ducks/message/messageSlice";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 
 import { SignupData } from "src/components/Auth/components/Signup/Signup.d";
 import { UserData } from "./user.d";
-import { AppDispatch } from "src/store/configure";
+import { AppDispatch, RootState } from "src/store/configure";
 import {
   EMAIL_SENT,
   PASSWORD_CHANGED,
@@ -15,16 +15,15 @@ import {
   USER_REGISTRATED,
   USER_UPDATED,
 } from "src/ducks/message/actions/message";
+import axiosApiInstance from "src/utils/axios/axios";
+import { UserState, setUser } from "../userSlice";
 
-const PORT = 3001;
-const ADDRESS = "localhost";
-const PROTOCOL = "http";
-const API_URL = `${PROTOCOL}://${ADDRESS}:${PORT}`;
-const SIGNUP_ENDPOINT = "/api/user/signup";
-const ACTIVATE_ENDPOINT = "/api/user/activate";
-const CHANGE_PASSWORD_ENDPOINT = "/api/user/password";
-const UPDATE_ENDPOINT = "/api/user/update";
-const RECOVER_PASSWORD_ENDPOINT = "/api/user/recovery";
+const SIGNUP_ENDPOINT = "user/signup";
+const ACTIVATE_ENDPOINT = "user/activate";
+const CHANGE_PASSWORD_ENDPOINT = "user/password";
+const UPDATE_ENDPOINT = "user/update";
+const RECOVER_PASSWORD_ENDPOINT = "user/recovery";
+const GET_USER_INFO_ENDPOINT = "user";
 
 const handleError = (dispatch: AppDispatch, error: AxiosError) => {
   const data = error.response?.data as { [key: string]: unknown };
@@ -41,8 +40,8 @@ const signup = (
   navigate: NavigateFunction,
   { email, username, password, firstname, lastname }: SignupData
 ) =>
-  axios
-    .post(`${API_URL}${SIGNUP_ENDPOINT}`, {
+  axiosApiInstance
+    .post(SIGNUP_ENDPOINT, {
       email,
       username,
       password,
@@ -60,9 +59,9 @@ const signup = (
     );
 
 const activateUser = (dispatch: AppDispatch, token: string) =>
-  axios
+  axiosApiInstance
     .post(
-      `${API_URL}${ACTIVATE_ENDPOINT}`,
+      ACTIVATE_ENDPOINT,
       {},
       {
         headers: {
@@ -84,67 +83,37 @@ const changePassword = (
   token: string,
   password: string
 ) =>
-  axios
-    .post(
-      `${API_URL}${CHANGE_PASSWORD_ENDPOINT}`,
-      { password },
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    )
-    .then(
-      () => {
-        dispatch(setMessage(PASSWORD_CHANGED));
-      },
-      (error) => {
-        handleError(dispatch, error);
-      }
-    );
+  axiosApiInstance.post(CHANGE_PASSWORD_ENDPOINT, { password }).then(
+    () => {
+      dispatch(setMessage(PASSWORD_CHANGED));
+    },
+    (error) => {
+      handleError(dispatch, error);
+    }
+  );
 
 const updatePassword = (dispatch: AppDispatch, password: string) =>
-  axios
-    .post(
-      `${API_URL}${CHANGE_PASSWORD_ENDPOINT}`,
-      { password },
-      {
-        headers: {
-          Authorization: sessionStorage.getItem("user"),
-        },
-      }
-    )
-    .then(
-      () => {
-        dispatch(setMessage(PASSWORD_UPDATED));
-      },
-      (error) => {
-        handleError(dispatch, error);
-      }
-    );
+  axiosApiInstance.post(CHANGE_PASSWORD_ENDPOINT, { password }).then(
+    () => {
+      dispatch(setMessage(PASSWORD_UPDATED));
+    },
+    (error) => {
+      handleError(dispatch, error);
+    }
+  );
 
 const updateUser = (dispatch: AppDispatch, user: UserData) =>
-  axios
-    .post(
-      `${API_URL}${UPDATE_ENDPOINT}`,
-      { userData: user },
-      {
-        headers: {
-          Authorization: sessionStorage.getItem("user"),
-        },
-      }
-    )
-    .then(
-      () => {
-        dispatch(setMessage(USER_UPDATED));
-      },
-      (error) => {
-        handleError(dispatch, error);
-      }
-    );
+  axiosApiInstance.post(UPDATE_ENDPOINT, { userData: user }).then(
+    () => {
+      dispatch(setMessage(USER_UPDATED));
+    },
+    (error) => {
+      handleError(dispatch, error);
+    }
+  );
 
 const passwordRecovery = (dispatch: AppDispatch, email: string) =>
-  axios.post(`${API_URL}${RECOVER_PASSWORD_ENDPOINT}`, { email }).then(
+  axiosApiInstance.post(RECOVER_PASSWORD_ENDPOINT, { email }).then(
     () => {
       dispatch(setMessage(EMAIL_SENT));
     },
@@ -153,7 +122,26 @@ const passwordRecovery = (dispatch: AppDispatch, email: string) =>
     }
   );
 
-export const useUser = () => {
+const getUserInfo = (dispatch: AppDispatch) =>
+  axiosApiInstance.get(GET_USER_INFO_ENDPOINT).then(
+    (res) => {
+      const { email, username, firstname, lastname } = res.data.user;
+      const user: UserState = {
+        email,
+        username,
+        firstname,
+        lastname,
+      };
+      dispatch(setUser(user));
+    },
+    (error) => {
+      handleError(dispatch, error);
+    }
+  );
+
+export const useUser = () => useAppSelector((state: RootState) => state.user);
+
+export const useUserActions = () => {
   const dispatch: AppDispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -166,6 +154,7 @@ export const useUser = () => {
       updatePassword: (password: string) => updatePassword(dispatch, password),
       updateUser: (user: UserData) => updateUser(dispatch, user),
       signup: (data: SignupData) => signup(dispatch, navigate, data),
+      getUserInfo: () => getUserInfo(dispatch),
     }),
     [dispatch, navigate]
   );

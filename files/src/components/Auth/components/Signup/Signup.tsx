@@ -8,13 +8,13 @@ import { useTranslation } from "react-i18next";
 import { SignupData } from "./Signup.d";
 
 import { useNavigation } from "src/ducks/navigation/navigation";
-import { useUser } from "src/ducks/user/actions/user";
+import { useUserActions } from "src/ducks/user/actions/user";
 
 const Signup: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const { t } = useTranslation("authentication");
-  const { signup } = useUser();
+  const { signup } = useUserActions();
   const { pushState } = useNavigation();
 
   const goToLogin = () => pushState("/auth/login");

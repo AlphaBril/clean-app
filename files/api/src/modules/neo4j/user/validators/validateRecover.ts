@@ -2,7 +2,7 @@ import { body, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { format } from "@shared/utils";
 
-export const validateRecover = [
+export const validateRecover = () => [
   body("email")
     .trim()
     .normalizeEmail()

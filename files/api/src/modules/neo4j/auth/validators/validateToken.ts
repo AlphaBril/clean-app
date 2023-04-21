@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { forbidden, internalError, unauthorized } from "@shared/utils";
 import { verifyToken } from "@shared/jwt/jwt";
 
-export const validateToken = [
+export const validateToken = () => [
   header("Authorization")
     .trim()
     .escape()
@@ -23,6 +23,7 @@ export const validateToken = [
         if (decoded === "jwt expired") return forbidden(res, "Token expired");
         else return internalError(res)(decoded);
       }
+      req.body._token = decoded;
     }
     return next();
   },

@@ -2,7 +2,7 @@ import { header, body, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { format } from "@shared/utils";
 
-export const validateUpdate = [
+export const validateUpdate = () => [
   header("token")
     .trim()
     .escape()
