@@ -40,5 +40,13 @@ export const getRefreshToken = (host: string, usr: string, admin: boolean) =>
     }
   );
 
-export const verifyToken = (refreshToken: string) =>
-  jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+export const verifyToken = (token: string) => {
+  try {
+    return jwt.verify(token, REFRESH_TOKEN_SECRET);
+  } catch (e) {
+    const err = e as jwt.JsonWebTokenError;
+    return err.message;
+  }
+};
+
+export type JWTVerificationException = jwt.JsonWebTokenError;

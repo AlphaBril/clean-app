@@ -1,25 +1,15 @@
 import { useMemo } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "src/hooks/hooks";
-import {
-  loginSuccess,
-  loginFailure,
-  logOut,
-  AuthenticationState,
-} from "src/ducks/auth/authSlice";
+import { logIn, logOut, AuthState } from "src/ducks/auth/authSlice";
 import { MessageState, setMessage } from "src/ducks/message/messageSlice";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
+import axiosApiInstance from "src/utils/axios/axios";
 
-import { socket } from "src/hooks/useSocket";
 import { AppDispatch, RootState } from "src/store/configure";
 
-const PORT = 3001;
-const ADDRESS = "localhost";
-const PROTOCOL = "http";
-const API_URL = `${PROTOCOL}://${ADDRESS}:${PORT}`;
-const LOGIN_ENDPOINT = "/api/auth/login";
-const REFRESH_ENDPOINT = "/api/auth/refresh";
-const LOGOUT_ENDPOINT = "/api/auth/logout";
+const LOGIN_ENDPOINT = "auth/login";
+const LOGOUT_ENDPOINT = "auth/logout";
 
 const handleError = (dispatch: AppDispatch, error: AxiosError) => {
   const data = error.response?.data as { [key: string]: unknown };
@@ -28,23 +18,7 @@ const handleError = (dispatch: AppDispatch, error: AxiosError) => {
     errorMessage = JSON.stringify(data.message);
   }
   const message: MessageState = { value: errorMessage, status: "error" };
-  dispatch(loginFailure());
   dispatch(setMessage(message));
-};
-
-const setUser = (
-  dispatch: AppDispatch,
-  res: AxiosResponse,
-  navigate: NavigateFunction
-) => {
-  const token = res.data.accessToken;
-  const user: AuthenticationState = {
-    isAuthenticated: true,
-    accessToken: token,
-  };
-  dispatch(loginSuccess(user));
-  socket.emit("order:update", token);
-  navigate("/");
 };
 
 const login = (
@@ -53,83 +27,43 @@ const login = (
   username: string,
   password: string
 ) =>
-  axios
-    .post(
-      `${API_URL}${LOGIN_ENDPOINT}`,
-      { username, password },
-      {
-        withCredentials: true,
-      }
-    )
-    .then(
-      (res) => {
-        setUser(dispatch, res, navigate);
-      },
-      (error) => {
-        handleError(dispatch, error);
-      }
-    );
+  axiosApiInstance.post(LOGIN_ENDPOINT, { username, password }).then(
+    (res) => {
+      const { accessToken } = res.data;
+      const user: AuthState = {
+        isAuthenticated: true,
+        accessToken,
+      };
+      dispatch(logIn(user));
+      navigate("/");
+    },
+    (error) => {
+      handleError(dispatch, error);
+    }
+  );
 
-const logout = (
-  dispatch: AppDispatch,
-  navigate: NavigateFunction,
-  accessToken: string
-) =>
-  axios
-    .post(
-      `${API_URL}${LOGOUT_ENDPOINT}`,
-      {},
-      {
-        headers: {
-          Authorization: accessToken,
-        },
-        withCredentials: true,
-      }
-    )
-    .then(
-      (res) => {
-        if (res.status) dispatch(logOut());
-        navigate("/auth/login");
-      },
-      (error) => {
-        handleError(dispatch, error);
-      }
-    );
-
-const refresh = (
-  dispatch: AppDispatch,
-  navigate: NavigateFunction,
-  accessToken: string
-) =>
-  axios
-    .get(`${API_URL}${REFRESH_ENDPOINT}`, {
-      headers: {
-        Authorization: accessToken,
-      },
-      withCredentials: true,
-    })
-    .then(
-      (res) => {
-        setUser(dispatch, res, navigate);
-      },
-      (error) => {
-        handleError(dispatch, error);
-      }
-    );
+const logout = (dispatch: AppDispatch, navigate: NavigateFunction) =>
+  axiosApiInstance.post(LOGOUT_ENDPOINT).then(
+    () => {
+      dispatch(logOut());
+      navigate("/auth/login");
+    },
+    (error) => {
+      handleError(dispatch, error);
+    }
+  );
 
 export const useAuth = () => useAppSelector((state: RootState) => state.auth);
 
 export const useAuthActions = () => {
   const dispatch: AppDispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { accessToken } = useAuth();
 
   return useMemo(
     () => ({
       login: (username: string, password: string) =>
         login(dispatch, navigate, username, password),
-      refresh: () => refresh(dispatch, navigate, accessToken),
-      logout: () => logout(dispatch, navigate, accessToken),
+      logout: () => logout(dispatch, navigate),
     }),
     [dispatch, navigate]
   );

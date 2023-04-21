@@ -35,6 +35,8 @@ export const notFound = (res: response, message: string) =>
   resWarn(res, 404, message);
 export const unauthorized = (res: response, message: string) =>
   resWarn(res, 401, message);
+export const forbidden = (res: response, message: string) =>
+  resWarn(res, 403, message);
 export const conflict = (res: response, message: string) =>
   resWarn(res, 409, message);
 export const format = (res: response, message: string) =>
