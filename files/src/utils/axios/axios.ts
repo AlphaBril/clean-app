@@ -11,7 +11,7 @@ const axiosApiInstance = axios.create({
 axiosApiInstance.interceptors.request.use(
   async (config) => {
     const { accessToken } = store.getState().auth;
-    config.headers.Authorization = `Bearer ${accessToken}`;
+    if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
     config.withCredentials = true;
     return config;
   },
@@ -41,8 +41,9 @@ axiosApiInstance.interceptors.response.use(
         };
         dispatch(refresh(user));
         originalRequest._retry = true;
-        axios.defaults.headers.common["Authorization"] =
-          "Bearer " + accessToken;
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${accessToken}`;
         return axiosApiInstance(originalRequest);
       } catch (e) {
         return Promise.reject(e);

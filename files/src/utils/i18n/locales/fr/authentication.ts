@@ -15,7 +15,10 @@ const trad = {
   password_contain: "Votre mot de passe doit contenir au moins un chiffre",
   firstname_missing: "Veuillez entrer un prénom valide",
   lastname_missing: "Veuillez entrer un nom valide",
-  go_to_recovery: "Recuperer mon compte",
+  go_to_recovery: "Récupérer mon compte",
+  remember_me: "Se souvenir de moi",
+  session_expired: "Session expirée",
+  your_session_expired: "Votre session a expirée, veuillez vous reconnecter",
 };
 
 export default trad;

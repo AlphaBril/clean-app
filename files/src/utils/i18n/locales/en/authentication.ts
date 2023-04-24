@@ -18,6 +18,9 @@ const trad = {
   firstname_missing: "Please enter a valid firstname",
   lastname_missing: "Please enter a valid lastname",
   go_to_recovery: "Forgot your password?",
+  remember_me: "Remember this device",
+  session_expired: "Session expired",
+  your_session_expired: "Your session expired, please login again",
 };
 
 export default trad;

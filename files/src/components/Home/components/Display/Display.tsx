@@ -1,9 +1,11 @@
 import React, { useEffect, useMemo } from "react";
 import { Descriptions } from "antd";
 import { useUser, useUserActions } from "src/ducks/user/actions/user";
+import { useTranslation } from "react-i18next";
 
 const Display: React.FC = () => {
   const { getUserInfo } = useUserActions();
+  const { t } = useTranslation("display");
   const user = useUser();
 
   useEffect(() => {
@@ -14,17 +16,17 @@ const Display: React.FC = () => {
     return user;
   }, [user]);
   return (
-    <Descriptions title="User Info">
-      <Descriptions.Item label="UserName">
+    <Descriptions title={t("user_info")}>
+      <Descriptions.Item label={t("username")}>
         {userInfo.username}
       </Descriptions.Item>
-      <Descriptions.Item label="Firstname">
+      <Descriptions.Item label={t("firstname")}>
         {userInfo.firstname}
       </Descriptions.Item>
-      <Descriptions.Item label="LastName">
+      <Descriptions.Item label={t("lastname")}>
         {userInfo.lastname}
       </Descriptions.Item>
-      <Descriptions.Item label="Email">{userInfo.email}</Descriptions.Item>
+      <Descriptions.Item label={t("email")}>{userInfo.email}</Descriptions.Item>
     </Descriptions>
   );
 };

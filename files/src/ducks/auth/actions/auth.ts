@@ -1,7 +1,12 @@
 import { useMemo } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "src/hooks/hooks";
-import { logIn, logOut, AuthState } from "src/ducks/auth/authSlice";
+import {
+  logIn,
+  logOut,
+  refresh as refreshState,
+  AuthState,
+} from "src/ducks/auth/authSlice";
 import { MessageState, setMessage } from "src/ducks/message/messageSlice";
 import { AxiosError } from "axios";
 import axiosApiInstance from "src/utils/axios/axios";
@@ -10,6 +15,7 @@ import { AppDispatch, RootState } from "src/store/configure";
 
 const LOGIN_ENDPOINT = "auth/login";
 const LOGOUT_ENDPOINT = "auth/logout";
+const REFRESH_ENDPOINT = "auth/refresh";
 
 const handleError = (dispatch: AppDispatch, error: AxiosError) => {
   const data = error.response?.data as { [key: string]: unknown };
@@ -18,6 +24,7 @@ const handleError = (dispatch: AppDispatch, error: AxiosError) => {
     errorMessage = JSON.stringify(data.message);
   }
   const message: MessageState = { value: errorMessage, status: "error" };
+  dispatch(logOut());
   dispatch(setMessage(message));
 };
 
@@ -53,6 +60,16 @@ const logout = (dispatch: AppDispatch, navigate: NavigateFunction) =>
     }
   );
 
+const refresh = (dispatch: AppDispatch) =>
+  axiosApiInstance.get(REFRESH_ENDPOINT).then((res) => {
+    const { accessToken } = res.data;
+    const user: AuthState = {
+      isAuthenticated: true,
+      accessToken,
+    };
+    dispatch(refreshState(user));
+  });
+
 export const useAuth = () => useAppSelector((state: RootState) => state.auth);
 
 export const useAuthActions = () => {
@@ -64,6 +81,7 @@ export const useAuthActions = () => {
       login: (username: string, password: string) =>
         login(dispatch, navigate, username, password),
       logout: () => logout(dispatch, navigate),
+      refresh: () => refresh(dispatch),
     }),
     [dispatch, navigate]
   );

@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface AuthState {
   isAuthenticated: boolean;
-  accessToken: string;
+  accessToken: string | null;
 }
 
 const initialState: AuthState = {
   isAuthenticated: false,
-  accessToken: "",
+  accessToken: null,
 };
 
 export const authSlice = createSlice({
