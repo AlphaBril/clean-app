@@ -65,7 +65,7 @@ const activateUser = (dispatch: AppDispatch, token: string) =>
       {},
       {
         headers: {
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       }
     )
@@ -83,14 +83,24 @@ const changePassword = (
   token: string,
   password: string
 ) =>
-  axiosApiInstance.post(CHANGE_PASSWORD_ENDPOINT, { password }).then(
-    () => {
-      dispatch(setMessage(PASSWORD_CHANGED));
-    },
-    (error) => {
-      handleError(dispatch, error);
-    }
-  );
+  axiosApiInstance
+    .post(
+      CHANGE_PASSWORD_ENDPOINT,
+      { password },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .then(
+      () => {
+        dispatch(setMessage(PASSWORD_CHANGED));
+      },
+      (error) => {
+        handleError(dispatch, error);
+      }
+    );
 
 const updatePassword = (dispatch: AppDispatch, password: string) =>
   axiosApiInstance.post(CHANGE_PASSWORD_ENDPOINT, { password }).then(

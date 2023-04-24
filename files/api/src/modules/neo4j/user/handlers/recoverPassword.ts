@@ -3,6 +3,7 @@ import { conflict, info, internalError } from "@shared/utils";
 import { CHANGE_PASSWORD_EMAIL, sendMail } from "@shared/mail/mailer";
 import { getUser } from "../utils/getUser";
 import { Request, Response } from "express";
+import { getAccessToken } from "@shared/jwt/jwt";
 
 export const recoverPassword = async (req: Request, res: Response) => {
   const session = getSession();
@@ -11,10 +12,15 @@ export const recoverPassword = async (req: Request, res: Response) => {
   try {
     const userInfo = await getUser(session, { email });
     if (!userInfo) return conflict(res, `No user with this email`);
+    const accessToken = getAccessToken(
+      `${req.protocol}://${req.get("host")}`,
+      userInfo.properties.Username,
+      false
+    );
     const mail = sendMail(
-      req.headers.origin ?? "",
+      `${req.protocol}://${req.get("host")}`,
       email,
-      userInfo.properties.Token,
+      accessToken,
       userInfo.properties.Username,
       CHANGE_PASSWORD_EMAIL
     );

@@ -22,7 +22,7 @@ export const getAccessToken = (host: string, usr: string, admin: boolean) =>
     ACCESS_TOKEN_SECRET,
     {
       algorithm: "HS512",
-      expiresIn: "5m",
+      expiresIn: "15m",
     }
   );
 

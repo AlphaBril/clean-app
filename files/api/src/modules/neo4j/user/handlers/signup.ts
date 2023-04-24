@@ -5,16 +5,15 @@ import { ACTIVATION_EMAIL, sendMail } from "@shared/mail/mailer";
 import { createUser } from "../utils/createUser";
 import { countSimilarUsers } from "../utils/countUser";
 import { Request, Response } from "express";
+import { getAccessToken } from "@shared/jwt/jwt";
 
 export const signup = async (req: Request, res: Response) => {
   const session = getSession();
   const { username, email, password, firstname, lastname } = req.body;
-  const token = "test";
   const userParams = {
     username,
     email,
     password,
-    token,
     firstname,
     lastname,
     active: false,
@@ -31,17 +30,23 @@ export const signup = async (req: Request, res: Response) => {
 
     await createUser(session, userParams);
 
+    const accessToken = getAccessToken(
+      `${req.protocol}://${req.get("host")}`,
+      username,
+      false
+    );
+
     const mail = await sendMail(
-      req.headers.origin ?? "",
+      `${req.protocol}://${req.get("host")}`,
       email,
-      token,
+      accessToken,
       username,
       ACTIVATION_EMAIL
     );
     if (!mail) return conflict(res, `Registration email could not be sent`);
 
     info(`New user account, welcome to ${username}`);
-    return res.status(200).json({ token });
+    return res.status(200);
   } catch (e) {
     return internalError(res)(e);
   } finally {

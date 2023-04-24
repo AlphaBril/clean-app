@@ -7,17 +7,17 @@ import { Request, Response } from "express";
 
 export const changePassword = async (req: Request, res: Response) => {
   const session = getSession();
-  const token = req.get("Authorization");
+  const { _token } = req.body;
   const password = await hashPassword(req.body.password);
 
   try {
-    const userInfo = await getUser(session, { token });
+    const userInfo = await getUser(session, { username: _token.usr });
     if (!userInfo) return conflict(res, `Your token is invalid`);
 
     const updated = await updateUser(
       session,
-      { password, token },
-      userInfo.properties.Token
+      { password },
+      userInfo.properties.Username
     );
 
     info(`Password Updated !`);

@@ -1,15 +1,8 @@
-import { header, body, validationResult } from "express-validator";
+import { body, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { format } from "@shared/utils";
 
 export const validateUpdate = () => [
-  header("token")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage("Token can not be empty!")
-    .bail(),
   body("username")
     .trim()
     .escape()

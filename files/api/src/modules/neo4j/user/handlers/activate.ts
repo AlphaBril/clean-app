@@ -6,19 +6,17 @@ import { Request, Response } from "express";
 
 export const activateUser = async (req: Request, res: Response) => {
   const session = getSession();
-  const auth = req.get("Authorization");
+  const { _token } = req.body;
 
   try {
-    if (!auth) return conflict(res, `Your token is invalid`);
-    const userInfo = await getUser(session, { token: auth });
+    if (!_token) return conflict(res, `Your token is invalid`);
+    const userInfo = await getUser(session, { username: _token.usr });
     if (!userInfo) return conflict(res, `Your token is invalid`);
     const active = true;
-    const email = userInfo.properties.Email;
-    const username = userInfo.properties.Username;
     const updated = await updateUser(
       session,
-      { email, username, active },
-      auth
+      { active },
+      userInfo.properties.Username
     );
 
     info(`User activated !`);
