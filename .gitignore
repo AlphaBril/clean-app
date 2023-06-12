@@ -1,4 +1,4 @@
 files.tar.gz
 databases
 node_modules
-test
+test*
