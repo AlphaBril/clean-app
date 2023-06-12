@@ -4,12 +4,12 @@ import generateCleanApp from './scripts/archi.js';
 
 const cli = meow(`
 	Usage
-	  $ generate-clean-app <my-app>
+	  $ generate-clean-app <my-app> -d <database>
 
 	Options
 	  --database, -d  Select database
-      List of database implemented:
-      - mysql (default)
+      List of databases implemented:
+      - mysql
       - mongo
       - neo4j
       - postgres
@@ -21,7 +21,8 @@ const cli = meow(`
 	flags: {
 		database: {
 			type: 'string',
-			alias: 'd'
+			alias: 'd',
+			isRequired: true
 		}
 	}
 });

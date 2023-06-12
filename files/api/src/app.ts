@@ -1,6 +1,6 @@
 import express from "express";
-import userRoutes from "./modules/neo4j/user/user";
-import authRoutes from "./modules/neo4j/auth/auth";
+import userRoutes from "./modules/user/user";
+import authRoutes from "./modules/auth/auth";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
