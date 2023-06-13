@@ -6,7 +6,7 @@ import { Request, Response } from "express";
 
 export const activateUser = async (req: Request, res: Response) => {
   const connection = getClient();
-  connection.connect();
+  await connection.connect();
   const { _token } = req.body;
 
   try {

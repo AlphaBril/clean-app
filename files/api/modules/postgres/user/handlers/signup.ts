@@ -9,7 +9,7 @@ import { getAccessToken } from "@shared/jwt/jwt";
 
 export const signup = async (req: Request, res: Response) => {
   const connection = getClient();
-  connection.connect();
+  await connection.connect();
   const { username, email, password, firstname, lastname } = req.body;
   const userParams = {
     username,

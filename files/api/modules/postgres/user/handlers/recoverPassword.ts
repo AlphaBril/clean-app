@@ -7,7 +7,7 @@ import { getUserWithEmail } from "../utils/getUserWithEmail";
 
 export const recoverPassword = async (req: Request, res: Response) => {
   const connection = getClient();
-  connection.connect();
+  await connection.connect();
   const email = req.body.email;
 
   try {

@@ -52,7 +52,7 @@ const generateBack = (folder, database) => {
             console.error(err);
         }
     })
-    execSync('mkdir ' + folder + '/api/databases/ini', (err) => {
+    execSync('mkdir ' + folder + '/api/databases/init', (err) => {
         if (err) {
             console.error(err);
         }

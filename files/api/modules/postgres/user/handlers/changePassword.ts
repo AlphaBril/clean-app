@@ -7,7 +7,7 @@ import { Request, Response } from "express";
 
 export const changePassword = async (req: Request, res: Response) => {
   const connection = getClient();
-  connection.connect();
+  await connection.connect();
   const { _token } = req.body;
   const password = await hashPassword(req.body.password);
 

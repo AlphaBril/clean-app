@@ -5,7 +5,7 @@ import { getUser } from "../utils/getUser";
 
 export const getUserInfo = async (req: Request, res: Response) => {
   const connection = getClient();
-  connection.connect();
+  await connection.connect();
   const { _token } = req.body;
   try {
     const userInfo = await getUser(connection, _token.usr);

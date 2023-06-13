@@ -6,7 +6,7 @@ import { getAccessToken, verifyToken } from "@shared/jwt/jwt";
 
 export const refresh = async (req: Request, res: Response) => {
   const connection = getClient();
-  connection.connect();
+  await connection.connect();
   const cookies = req.cookies;
 
   if (!cookies || !cookies.jwt) return unauthorized(res, `Unauthorized`);

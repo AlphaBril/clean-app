@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 
 export const updateUserInfo = async (req: Request, res: Response) => {
   const connection = getClient();
-  connection.connect();
+  await connection.connect();
   const { _token } = req.body;
   const { username, email, firstname, lastname } = req.body.userData;
   const userParams = {

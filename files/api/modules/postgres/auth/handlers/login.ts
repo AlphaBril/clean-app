@@ -7,7 +7,7 @@ import { getAccessToken, getRefreshToken } from "@shared/jwt/jwt";
 
 export const login = async (req: Request, res: Response) => {
   const connection = getClient();
-  connection.connect();
+  await connection.connect();
   const { username, password } = req.body;
 
   try {
