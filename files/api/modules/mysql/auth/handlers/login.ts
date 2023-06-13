@@ -1,7 +1,7 @@
 import { getDriver } from "@shared/mysql/mysql";
 import { info, internalError, conflict } from "@shared/utils";
 import { checkPassword } from "@shared/bcrypt/checkPassword";
-import { getUser } from "../utils/getUser";
+import { getUser } from "@modules/user/utils/getUser";
 import { Request, Response } from "express";
 import { getAccessToken, getRefreshToken } from "@shared/jwt/jwt";
 

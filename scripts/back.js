@@ -80,6 +80,7 @@ const generateBack = (folder, database) => {
             devDependencies.push('@types/mysql');
             copyFileSync(fileDir + '/api/mysql.yml', folder + '/api/docker-compose.yml');
             copyFileSync(fileDir + '/api/env-example-mysql', folder + '/api/.env');
+            copydir.sync(fileDir + '/api/databases', folder + '/api/databases');
             copydir.sync(fileDir + '/api/modules/mysql', folder + '/api/src/modules');
             copydir.sync(fileDir + '/api/shared/mysql', folder + '/api/src/shared/mysql');
             copydir.sync(fileDir + '/api/constants/mysql.ts', folder + '/api/src/constants/mysql.ts');

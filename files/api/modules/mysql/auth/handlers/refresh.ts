@@ -1,6 +1,6 @@
 import { info, internalError, unauthorized } from "@shared/utils";
 import { Request, Response } from "express";
-import { getUser } from "../utils/getUser";
+import { getUser } from "@modules/user/utils/getUser";
 import { getDriver } from "@shared/mysql/mysql";
 import { getAccessToken, verifyToken } from "@shared/jwt/jwt";
 

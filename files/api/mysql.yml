@@ -6,6 +6,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password #remove later when mysql client on node is updated
     volumes:
       - ./databases/mysql:/var/lib/mysql
+      - ./databases/init:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=mysql
@@ -13,3 +14,11 @@ services:
       - MYSQL_PASSWORD=123
     ports:
       - 3306:3306
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=mysql

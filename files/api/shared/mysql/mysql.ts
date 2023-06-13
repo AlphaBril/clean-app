@@ -22,6 +22,5 @@ const connectionString =
   "/" +
   MYSQL_DATABASE;
 
-const connection = mysql.createConnection(connectionString);
-export const getDriver = () => connection;
+export const getDriver = () => mysql.createConnection(connectionString);
 // client.connect() -> client.query() -> client.end()
