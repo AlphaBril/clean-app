@@ -5,8 +5,15 @@ services:
     container_name: postgres
     volumes:
       - ./databases/postgres:/var/lib/postgresql/data
+      - ./databases/init:/docker-entrypoint-initdb.d
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=mydb
     ports:
       - 5432:5432
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

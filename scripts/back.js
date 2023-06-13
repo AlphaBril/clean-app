@@ -47,6 +47,16 @@ const generateBack = (folder, database) => {
             console.error(err);
         }
     })
+    execSync('mkdir ' + folder + '/api/databases', (err) => {
+        if (err) {
+            console.error(err);
+        }
+    })
+    execSync('mkdir ' + folder + '/api/databases/ini', (err) => {
+        if (err) {
+            console.error(err);
+        }
+    })
     copydir.sync(fileDir + '/api/src', folder + '/api/src');
     switch (database) {
         case 'mongo':
@@ -70,6 +80,7 @@ const generateBack = (folder, database) => {
             devDependencies.push('@types/pg');
             copyFileSync(fileDir + '/api/env-example-postgres', folder + '/api/.env');
             copyFileSync(fileDir + '/api/postgres.yml', folder + '/api/docker-compose.yml');
+            copyFileSync(fileDir + '/api/databases/init/init_postgres_db.sql', folder + '/api/databases/init/init.sql');
             copydir.sync(fileDir + '/api/modules/postgres', folder + '/api/src/modules');
             copydir.sync(fileDir + '/api/shared/postgres', folder + '/api/src/shared/postgres');
             copydir.sync(fileDir + '/api/constants/postgres.ts', folder + '/api/src/constants/postgres.ts');
@@ -80,7 +91,7 @@ const generateBack = (folder, database) => {
             devDependencies.push('@types/mysql');
             copyFileSync(fileDir + '/api/mysql.yml', folder + '/api/docker-compose.yml');
             copyFileSync(fileDir + '/api/env-example-mysql', folder + '/api/.env');
-            copydir.sync(fileDir + '/api/databases', folder + '/api/databases');
+            copyFileSync(fileDir + '/api/databases/init/init_mysql_db.sql', folder + '/api/databases/init/init.sql');
             copydir.sync(fileDir + '/api/modules/mysql', folder + '/api/src/modules');
             copydir.sync(fileDir + '/api/shared/mysql', folder + '/api/src/shared/mysql');
             copydir.sync(fileDir + '/api/constants/mysql.ts', folder + '/api/src/constants/mysql.ts');
